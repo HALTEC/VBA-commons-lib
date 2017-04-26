@@ -1,0 +1,39 @@
+=pod
+
+=head1 Math
+
+A collection of functions that deal with numeric types
+
+=head1 DESCRIPTION
+
+This C<Math> module provides some commonly used operations on numeric types.
+
+=head1 FUNCTIONS
+
+=head2 min
+
+    Math.min(5, 3, 123, 7) ' 3
+
+Returns the smallest value of all parameters. Takes any number of parameters.
+Only works for nummeric and string types.
+
+=head2 max
+
+    Math.min(5, 3, 123, 7) ' 123
+
+Returns the largest value of all parameters. Takes any number of parameters.
+Only works for nummeric and string types.
+
+=head2 cmp
+
+    Math.cmp(5, 7) ' -1
+
+Compares two values and returns -1, 0, 1 if the first parameter is smaller,
+equal to or larger than the second.
+Can compare nummeric and string types and objects implementing the
+C<IComparable> interface.
+Throws C<E_ARGUMENTOUTOFRANGE> if one of the objects is not
+C<Variants.isComparable()>.
+Throws C<E_TYPEMISMATCH> if the two values are not of the same type.
+
+=cut

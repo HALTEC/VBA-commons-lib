@@ -1,0 +1,63 @@
+=pod
+
+=head1 Regexes
+
+A collection of functions related to the C<RegExp> class
+
+=head1 DESCRIPTION
+
+The C<Regexes> module provides some commonly needed functionality related to
+the C<RegExp> class.
+
+For an in-depth explanation of the regular expressions that the C<RegExp> object
+supports, see
+
+=over
+
+=item L<MSDN|https://msdn.microsoft.com/en-us/library/ms974570.aspx>
+
+=item L<Regular-Expressions.info|http://www.regular-expressions.info/vbscript.html>
+
+=back
+
+=head1 FUNCTIONS
+
+=head2 replace
+
+    replace(text, pattern, replacement, options = globalx) As String
+
+Takes [text], searches for [pattern] and replaces the match / all matches with
+[replacement].
+
+[pattern] can be any regular expression the C<RegExp> class supports.
+[replacement] can be any replacement string with or without references the
+C<RegExp> class supports.
+[options] can be
+
+=over
+
+=item C<Regexes.globalx> if given will replace all occurrences found, otherwise
+only the first one.
+
+=item C<Regexes.ignoreCase> if given will ignore casing while matching.
+
+=back
+
+The options can be combined using C<Or>. Defaults to C<Regexes.globalx>.
+Use 0 to disable all options.
+
+=head2 escape
+
+    Regexes.escape "John Doe (example@email.com)" ' "John Doe \(example@email\.com\)"
+
+Takes a string and escapes all regex special characters in it, so the string
+matches literally in a regular expression.
+
+=head2 escapeReplacement
+
+    Regexes.escapeReplacement "Price: $1.23" ' "Price: $$1.23"
+
+Takes a string and escapes all reference characters in it, so the string can be
+used as a literal replacement string during a regular expression match.
+
+=cut

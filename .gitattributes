@@ -1,0 +1,8 @@
+* text=auto eol=crlf
+
+# Images should be treated as binary
+# (binary is a macro for -text -diff)
+*.png     binary
+*.jpeg    binary
+*.jpg     binary
+*.sdf     binary

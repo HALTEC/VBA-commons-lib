@@ -1,0 +1,120 @@
+=pod
+
+=head1 Strings
+
+A collection of C<String> handling functions
+
+=head1 SYNOPSIS
+
+    Strings.format "{0,3}: {1}", 2, "description" ' "  2: description"
+    Strings.split "this is stuff" ' ["this" "is" "stuff"]
+    Strings.join List_create("this", "is", "stuff"), " " ' "this is stuff"
+    
+=head1 DESCRIPTION
+
+This C<Strings> class provides some commonly used operations on strings that are
+not provided by VBA.
+
+=head1 FUNCTIONS
+
+=head2 format
+
+    Strings.format "{0,3}: {1}", 2, "description" ' "  2: description"
+
+Format a string using placeholders and formatting annotations. This function
+closely follows the .Net C<String.Format()> implementation. For a detailed
+explanation of the possible formatting codes see the L<MSDN|https://msdn.microsoft.com/en-us/library/system.string.format(v=vs.110).aspx#Starting>.
+
+=head2 contains
+
+    contains(text, searchTerm, caseSensitive = True)
+    
+Checks whether [text] contains the [searchTerm].
+
+=head2 containsAny
+
+    containsAny(text, caseSensitive, ParamArray searchTerms())
+
+Checks whether [text] contains any of the specified [searchTerms].
+
+=head2 startsWith
+
+    startsWith(text, prefix, caseSensitive = True)
+
+Checks whether [text] starts with [prefix].
+
+=head2 endsWith
+
+    endsWith(text, postfix, caseSensitive = True)
+
+Checks whether [text] ends with [postfix].
+
+=head2 trimChar
+
+    trimChar(text, chars)
+
+Removes all leading and trailing occurrences of any character in [chars] from
+[text].
+
+=head2 trimCharStart
+
+    trimCharStart(text, chars)
+
+Removes all leading occurrences of any character in [chars] from [text].
+
+=head2 trimCharEnd
+
+    trimCharEnd(text, chars)
+
+Removes all trailing occurrences of any character in [chars] from [text].
+
+=head2 substr
+
+    substr(text, startIndex, Optional length)
+
+Returns a sub-string of [text].
+If [length] is missing returns the sub-string up to the end of [text].
+If [startIndex] is <0 it is counted from the back.
+If [length] is <0 it is no longer a length, but an end index counted from the
+back.
+If [startIndex] or the resulting end index end up being outside of [text],
+throws C<E_INDEXOUTOFRANGE>.
+
+
+=head2 split
+
+    split(text, separator = " ") As List
+
+Splits [text] on [separator] and returns a C<String> typed C<List> containing
+the sub texts. When splitting with an empty string as [separator] the string
+is split on every char.
+
+=head2 join
+
+    join(list, separator)
+
+Joins all elements in [list] and puts a [separator] between each.
+[list] need not be of type String. If it's not a numeric or string type, then
+C<Variants.gist()> is used to stringify the value.
+
+=head2 toChars
+
+    Strings.toChars("abc") ' ["a" "b" "c"]
+
+Explodes the string into a C<String> typed C<List> of single characters.
+
+=head2 repeat
+
+    Strings.repeat("<>", 10) ' "<><><><><><><><><><>"
+
+Repeats the given text.
+Throws C<E_ARGUMENTOUTOFRANGE> if the repetition number is negative.
+
+=head1 BUGS AND LIMITATIONS
+
+Do not confuse this class with the C<VBA.Strings> module which also contains
+string related functions. In general the functions in that module can be
+accessed using the plain function name without the C<VBA.Strings.> prefix, while
+the functions in this class need to be called using C<Strings.function()>.
+
+=cut

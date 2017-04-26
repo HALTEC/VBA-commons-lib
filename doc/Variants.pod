@@ -1,0 +1,59 @@
+=pod
+
+=head1 Variants
+
+A collection of C<Variant> handling functions
+
+=head1 SYNOPSIS
+
+    Variants.isArray 5 ' False
+
+=head1 DESCRIPTION
+
+This C<Variants> class provides some commonly used operations on variants that
+are not provided by VBA.
+
+=head1 FUNCTIONS
+
+=head2 isEquatable
+
+Returns True when the given thing is equatable somehow. This means it's either
+a basic type or implements the C<IEquatable> interface.
+
+=head2 isComparable
+
+Returns True when the given thing is comparable somehow. This means it's either
+a basic type or implements the C<IComparable> interface.
+
+=head2 equals
+
+Compares two things for equality. Objects are compared using C<Is>.
+
+=head2 fuzzyEquals
+
+Compares two things for equality. Objects are compared using C<.equals()>.
+
+Throws C<E_ARGUMENTOUTOFRANGE> if an object does not implement C<IEquatable>.
+
+=head2 isArray
+
+Checks whether the thing given is an array.
+
+=head2 verifyArray
+
+Throws an C<E_ARGUMENTOUTOFRANGE> exception if the given thing is not an array.
+This function is meant to be used to check function parameters for their
+type. The exception has a message indicating that a function parameter should
+have been of array type.
+
+=head2 gist
+
+Stringifies anything to something hopefully human-readable. Knows how to deal
+with C<List>s and arrays.
+
+=head2 varTypeToString
+
+Takes a C<Long> value as returned by C<VarType> and returns the name of that
+thing.
+
+=cut

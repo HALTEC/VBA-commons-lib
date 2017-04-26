@@ -1,0 +1,126 @@
+=pod
+
+=head1 VBA commons library
+
+A collection of basic auxiliary classes and modules to complement VBA
+
+=head1 DESCRIPTION
+
+This library tries to be a basic and easy to understand collection of
+functionality that VBA does not provide but is commonly needed. It does not
+intend to be a one stop solution for everything VBA.
+
+=head2 Constructors
+
+The classes in this package use a uniform, but non standard mechanism for
+constructing objects. Each class is accompanied by a function in the
+C<Constructors> module named C<ClassName_create()> which returns a fully
+constructed instance of the repective class. These functions may take
+parameters. This approach provides a short object creation syntax:
+
+    List_create(1, 2, 3).elems ' 3
+
+
+The mechanism does not primarily rely on the C<Class_Initialize()> event. Each
+class provides one or more C<init()> methods that may take parameters. This
+method is responsible for initialization of the class, but not for creating the
+object instance itself.
+The C<Constructors.ClassName_create()> function creates a class instance, calls
+the C<init()> method, forwarding all parameters it got, and returns the
+so initialized instance.
+
+=head2 Classes as Modules
+
+Most of the modules in this library are actually implemented as a Class. The
+reason is to not fill up the global funtion namespace with all the different
+function names the modules provide. The functions can still be called without
+creating a class instance first by simply calling
+
+    ClassName.functionName()
+
+This is made possible using a VB class attribute.
+
+    Attribute VB_PredeclaredId = True
+    
+When this attribute is attached to a class VBA automatically creates an instance
+of that class on load and all method calls on the class name itself use that
+instance.
+
+=head2 Attributes
+
+This library makes use of VB class and method attributes in several places.
+These attributes are visible in the exported text files and thus also in this
+repository, but the VBA editor hides them, they are simply not visible anymore.
+When copying methods and classes textually in the VBA editor these attributes
+can get lost. To edit them one has to export the module/class to a text file,
+edit the attributes and reimport them again. Exporting and importing is done via
+right mouse button on the class/module in the Project Explorer and then choosing
+I<Export/Import File...>.
+
+=head1 CONTENTS
+
+=head2 Arrays
+
+The C<Arrays> module provides functions to deal with array datastructures. For
+example creating empty arrays or sorting arrays.
+
+=head2 List
+
+An optionally typed 0-based list implementation.
+
+=head2 Math
+
+Common operations on numeric values. E.g. C<min()>, C<max()>, C<cmp()>
+
+=head2 Regexes
+
+Functions to help with using the C<VBScript_RegExp_55.RegExp> class.
+
+=head2 Strings
+
+Common operations on string values. E.g. C<split()>, C<join()>, C<format()>
+
+=head2 Test
+
+A minimal testing framework.
+
+=head2 Variants
+
+Common operations on C<Variant> values. E.g. C<equals()>, C<isArray()>,
+C<gist()>
+
+=head2 XlUtils
+
+Excel specific functions. E.g. C<rowColToExcel()>, C<sheetExists()>,
+C<isWorkbookOpen()>
+
+=head1 INSTALLATION
+
+Some of these classes depend on others, but to some extent they can be used
+independently. So when one only wants a single class or module the easiest way
+is to only import that module, try to build and see which modules VBA is
+missing.
+
+Espeically all the C<Test_> modules only contain tests and need not be imported.
+
+=head1 LICENSE
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=head1 AUTHORS
+
+Patrick Zimmermann  C<< <patrick.zimmermann@haltec.de> >>, originally based on
+code by Mathieu Guindon that can be found on
+L<Github|https://github.com/retailcoder/VBTools>.
+
+=cut

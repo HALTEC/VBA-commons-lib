@@ -1,0 +1,70 @@
+=pod
+
+=head1 Arrays
+
+A collection of array handling functions
+
+=head1 SYNOPSIS
+
+    Dim i() As Integer: ReDim i(3) ' 0 - 3
+    Arrays.elems i                 ' 4
+    
+    i = Arrays.emptyIntegerArray
+    Arrays.elems i                 ' 0
+    
+    Dim v() As Variant
+    v = Arrays.toVariantArray(i)
+
+=head1 DESCRIPTION
+
+This C<Arrays> class provides some commonly used operations on arrays that
+are not provided by VBA.
+
+=head1 FUNCTIONS
+
+=head2 sort
+
+    sort(arr, sortOrder = ascending)
+
+Sorts the array [arr] inline. Sorting is stable, i.e. elements that are
+considered equal are guaranteed not to swap places.
+Object types need to implement C<IComparable>.
+Throws C<E_ARGUMENTOUTOFRANGE> if the elements are not
+C<Variants.isComparable()>.
+Throws C<E_TYPEMISMATCH> if the array contains elements of different type.
+
+=head2 emptyVariantArray
+
+    Dim v() As Variant
+    v = Arrays.emptyVariantArray
+
+Creates and returns a dynamic empty C<Variant> array.
+C<LBound> is 0 and C<UBound> is -1.
+C<Arrays.elems()> will return 0 for such an array.
+
+=head2 emptyIntegerArray
+
+    Dim i() As Integer
+    i = Arrays.emptyIntegerArray
+
+Creates and returns a dynamic empty C<Integer> array.
+C<LBound> is 0 and C<UBound> is -1.
+C<Arrays.elems()> will return 0 for such an array.
+
+=head2 elems
+
+    Dim i(3) As Integer ' 0 - 3
+    Arrays.elems i      ' 4
+
+Returns the length of the array.
+
+=head2 toVariantArray
+
+    Dim i(3) As Integer
+    Dim v() As Variant
+    v = Arrays.toVariantArray(i)
+
+Creates a new C<Variant> array and fills it with the elements of the given
+array. The given array can be of any type.
+
+=cut

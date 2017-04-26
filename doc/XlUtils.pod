@@ -1,0 +1,73 @@
+=pod
+
+=head1 XlUtils
+
+A collection of Excel specific functions
+
+=head1 DESCRIPTION
+
+This C<XlUtils> module provides some commonly used functions when dealing with
+Excel.
+
+=head1 FUNCTIONS
+
+=head2 sheetExists
+
+    XlUtils.sheetExists "Sheet 3", someWorkbook
+
+Checks whether the given workbook contains a sheet with the given name. The
+workbook can be omitted and then defaults to C<ThisWorkbook>.
+
+=head2 commandBarExists
+
+    XlUtils.commandBarExists "MyCmdBar"
+
+Checks whether the current Excel instance has an active command bar with the
+given name.
+
+=head2 openWorkbookMaybeOpen
+
+    Set myworkbook = XlUtils.openWorkbookMaybeOpen("C:\myworkbook.xlsx")
+
+Opens a workbook. If the workbook is already open return that existing instance.
+The workbook path must be absolute for this function to work.
+
+=head2 isWorkbookOpen
+
+    XlUtils.isWorkbookOpen "C:\myworkbook.xlsx"
+
+Checks whether a given workbook is open. The workbook path must be absolute for
+this function to work.
+
+=head2 getOpenWorkbook
+
+    Set myworkbook = XlUtils.getOpenWorkbook("C:\myworkbook.xlsx")
+
+Returns an already opened workbook.
+The workbook path must be absolute for this function to work.
+Throws C<E_WORKBOOKNOTOPEN> if the workbook is not open.
+
+=head2 makeWritable
+
+    XlUtils.makeWritable mySheet
+
+If the given sheet is write protected for VBA, removes that VBA write
+protection. The sheet protection itself is re-added with the two options
+C<UserInterfaceOnly> and C<AllowFormattingCells> set.
+
+=head2 makeWritable2
+
+    XlUtils.makeWritable "mySheet", someWorkbook
+
+Same as C<makeWriteable> but takes a sheet name and optionally a workbook. If no
+workbook is given defaults to C<ThisWorkbook>.
+
+=head2 rowColToExcel
+
+    XlUtils.rowColToExcel 1, 27  ' "AA1"
+
+Takes a row and a column number and turns it into an Excel compatible "A1" cell
+address. Row and column numbers are 1-based.
+Throws C<E_INDEXOUTOFRANGE> if row or column is <=0.
+
+=cut

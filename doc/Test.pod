@@ -1,0 +1,134 @@
+=pod
+
+=head1 Test
+
+A minimal testing framework
+
+=head1 SYNOPSIS
+
+    Private Sub test_all()
+        gStart "basic tests"
+        
+        test_arithmetics
+        test_moreStuff
+        
+        gStop
+    End Sub
+
+    Private Sub test_arithmetics()
+        gStart "arithmetics"
+        
+        Dim i As Integer
+        i = 5
+        ok IsNumeric(i), "Integer is nummeric"
+        
+        equals 1 + 1, 2, "Integral addition works"
+
+        On Error Resume Next
+        i = 1 / 0
+        checkError 11, "Dividing by zero throws error code 11"
+        On Error GoTo 0
+        
+        gStop
+    End Sub
+    
+    Private Sub test_moreStuff()
+        gStart "moreStuff"
+        
+        ...
+        
+        gStop
+    End Sub
+        
+
+=head1 DESCRIPTION
+
+This C<Test> module provides a rather minimalistic framework for testing VBA
+stuff.
+
+It provides a set of functions to perform tests. Tests must be wrapped in a
+C<gStart> and C<gStop> pair. The last call to C<gStop> causes the test results
+to be printed to the debug output.
+
+The intended usage pattern is to create a module for each unit to test and group
+tests into functions. Each function starts with a C<gStart> and ends with a
+C<gStop>. One method called C<test_all()> calls all the other methods. To run
+the tests one simply puts the cursor in one of the methods and clicks the C<Run>
+button.    
+
+=head2 Grouping
+
+Tests can be grouped and groups nested using the two functions C<gStart> and
+C<gStop>. The grouping affects the test result reporting and is also helpful
+to create aggregator functions that run many tests at once.
+
+    gStart "outer group"
+    
+    gStart "sub-group 1"
+        ok True
+    gStop
+    
+    gStart "sub-group 2"
+        ok False
+    gStop
+    
+    gStop
+
+=head1 FUNCTIONS
+
+=head2 ok
+
+    ok obj.isCool, "obj should be cool"
+
+Checks whether the first parameter is True.
+An optional second parameter, a message, can be provided, which will be included
+in the test results.
+
+=head2 equals
+
+    equals 1 + 1, 2, "one and one should be two"
+
+Checks whether the first two parameters are equal.
+Arrays and C<List>s are compared element by element but do not recurse into
+deeper levels.
+An optional third parameter, a message, can be provided, which will be included
+in the test results.
+
+=head2 checkError
+
+    On Error Resume Next
+    i = 1 / 0
+    checkError 11, "Dividing by zero throws error code 11"
+    On Error GoTo 0
+
+Checks whether the Err object has a given error number set.
+An optional second parameter, a message, can be provided, which will be included
+in the test results.
+
+=head2 checkNoError
+
+    On Error Resume Next
+    i = 1 / 2
+    checkNoError "Dividing with remainder does not throw"
+    On Error GoTo 0
+
+Makes sure the Err object contains no error.
+An optional second parameter, a message, can be provided, which will be included
+in the test results.
+
+=head2 pass / fail
+
+    If False Then
+        fail "If works"
+    Else
+        pass "If works"
+    End If
+
+Unconditionally passes / fails.
+An optional parameter, a message, can be provided, which will be included
+in the test results.
+C<fail> and C<pass> should always be used in combination with another test.
+Otherwise the test count changes depending on whether the test succeeds or
+fails.
+
+=cut
