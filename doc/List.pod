@@ -339,7 +339,6 @@ Returns a string that represents the current List object.
 
 Returns a human readable string that represents the current List object.
 
-
 =head1 BUGS AND LIMITATIONS
 
 =head2 Interfaces
@@ -354,9 +353,6 @@ impossible to use TypeOf dynamically. C<TypeName(obj)> on the other hand only
 returns the direct class name of the given object and does not provide
 information about implemented Interfaces.
 
-
-Please report any bugs or feature requests through the web interface at
-L<https://github.com/HALTEC/vba-library/issues>.
 
 =head2 For Each "Method not supported"
 

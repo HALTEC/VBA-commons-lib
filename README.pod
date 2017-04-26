@@ -117,6 +117,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
+=head1 BUGS AND LIMITATIONS
+
+Please report any bugs or feature requests through the web interface at
+L<https://github.com/HALTEC/VBA-commons-lib/issues>.
+
 =head1 AUTHORS
 
 Patrick Zimmermann  C<< <patrick.zimmermann@haltec.de> >>, originally based on
