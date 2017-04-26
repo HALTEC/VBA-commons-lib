@@ -23,10 +23,14 @@ construction time and can not be changed later on.
 
 =over
 
-=item In B<untyped> mode, the list can hold values of any type and also of
+=item *
+
+In B<untyped> mode, the list can hold values of any type and also of
 different type. One creates such a list using the C<List_create> constructor.
 
-=item In B<typed> mode, the list is fixed to one type. Only elements of that
+=item *
+
+In B<typed> mode, the list is fixed to one type. Only elements of that
 type can be added to the list. When trying to add values of a different type
 an C<E_TYPEMISMATCH> exception will be thrown. One creates such a list using
 the C<List_createT> or the C<List_createLT> constructor. When using the latter
@@ -312,9 +316,13 @@ Tests whether this list equals another list. This means:
 
 =over
 
-=item The two lists have the same type constraint.
+=item *
 
-=item Each element is C<Variants.equals>. This means that objects are compared
+The two lists have the same type constraint.
+
+=item *
+
+Each element is C<Variants.equals>. This means that objects are compared
 using C<Is>.
 
 =back

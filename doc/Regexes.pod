@@ -14,9 +14,13 @@ supports, see
 
 =over
 
-=item L<MSDN|https://msdn.microsoft.com/en-us/library/ms974570.aspx>
+=item *
 
-=item L<Regular-Expressions.info|http://www.regular-expressions.info/vbscript.html>
+L<MSDN|https://msdn.microsoft.com/en-us/library/ms974570.aspx>
+
+=item *
+
+L<Regular-Expressions.info|http://www.regular-expressions.info/vbscript.html>
 
 =back
 
@@ -36,10 +40,14 @@ C<RegExp> class supports.
 
 =over
 
-=item C<Regexes.globalx> if given will replace all occurrences found, otherwise
+=item *
+
+C<Regexes.globalx> if given will replace all occurrences found, otherwise
 only the first one.
 
-=item C<Regexes.ignoreCase> if given will ignore casing while matching.
+=item *
+
+C<Regexes.ignoreCase> if given will ignore casing while matching.
 
 =back
 
