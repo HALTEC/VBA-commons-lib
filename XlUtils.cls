@@ -73,22 +73,22 @@ Public Function getOpenWorkbook(path As String) As Workbook
     Err.Raise E_WORKBOOKNOTOPEN, "XlUtils.getOpenWorkbook", "The given workbook is not open."
 End Function
 
-Public Sub makeWritable(sheet As Worksheet)
-    If sheet.ProtectContents Then
-        sheet.Unprotect
-        sheet.Protect UserInterfaceOnly:=True, AllowFormattingCells:=True
-    End If
-End Sub
+'Public Sub makeWritable(sheet As Worksheet)
+'    If sheet.ProtectContents Then
+'        sheet.Unprotect
+'        sheet.Protect UserInterfaceOnly:=True
+'    End If
+'End Sub
 
-Public Sub makeWritable2(sheet As String, Optional wb As Workbook)
-    Dim myWb As Workbook
-    If wb Is Nothing Then
-        Set myWb = Application.ThisWorkbook
-    Else
-        Set myWb = wb
-    End If
-    makeWritable2 myWb.Sheets(sheet)
-End Sub
+'Public Sub makeWritable2(sheet As String, Optional wb As Workbook)
+'    Dim myWb As Workbook
+'    If wb Is Nothing Then
+'        Set myWb = Application.ThisWorkbook
+'    Else
+'        Set myWb = wb
+'    End If
+'    makeWritable2 myWb.Sheets(sheet)
+'End Sub
 
 Public Function rowColToExcel(ByVal row As Integer, ByVal column As Integer) As String
     Static alphabet As String

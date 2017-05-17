@@ -47,20 +47,26 @@ Returns an already opened workbook.
 The workbook path must be absolute for this function to work.
 Throws C<E_WORKBOOKNOTOPEN> if the workbook is not open.
 
-=head2 makeWritable
+=head2 makeWritable (commented out)
 
     XlUtils.makeWritable mySheet
 
 If the given sheet is write protected for VBA, removes that VBA write
-protection. The sheet protection itself is re-added with the two options
-C<UserInterfaceOnly> and C<AllowFormattingCells> set.
+protection. The sheet protection itself is re-added with the option
+C<UserInterfaceOnly> set.
+This function is commented out to allow easier individualization (setting other
+protection options). Just copy the function to a different module and remove the
+commenting.
 
-=head2 makeWritable2
+=head2 makeWritable2 (commented out)
 
     XlUtils.makeWritable "mySheet", someWorkbook
 
 Same as C<makeWriteable> but takes a sheet name and optionally a workbook. If no
 workbook is given defaults to C<ThisWorkbook>.
+This function is commented out to allow easier individualization (setting other
+protection options). Just copy the function to a different module and remove the
+commenting.
 
 =head2 rowColToExcel
 
