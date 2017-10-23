@@ -9,6 +9,18 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = True
 Option Explicit
 
+Public Function nameExists(rangeName As String, Optional wb As Workbook) As Boolean
+    If wb Is Nothing Then
+        Set wb = ThisWorkbook
+    End If
+    
+    Dim foo As name
+    On Error Resume Next
+    Set foo = wb.Names(rangeName)
+    nameExists = Err.number = 0
+    On Error GoTo 0
+End Function
+
 Public Function sheetExists(sheetName As String, Optional wb As Workbook) As Boolean
     If wb Is Nothing Then
         Set wb = ThisWorkbook
