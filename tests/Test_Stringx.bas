@@ -120,9 +120,9 @@ End Sub
 Private Sub test_toChars()
     gStart "toChars"
     
-    equals Stringx.toChars("asdf"), List_create("a", "s", "d", "f")
-    equals Stringx.toChars(""), List_create
-    equals Stringx.toChars("I! AM! Sparta."), List_create("I", "!", " ", "A", "M", "!", " ", "S", "p", "a", "r", "t", "a", ".")
+    equals Stringx.toChars("asdf"), List_createLT("a", "s", "d", "f")
+    equals Stringx.toChars(""), List_createT("String")
+    equals Stringx.toChars("I! AM! Sparta."), List_createLT("I", "!", " ", "A", "M", "!", " ", "S", "p", "a", "r", "t", "a", ".")
     
     gStop
 End Sub
