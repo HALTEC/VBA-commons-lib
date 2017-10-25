@@ -5,6 +5,7 @@ Option Base 0 ' Default
 Private Sub test_all()
     gStart "XlUtils"
     
+    test_getOpenWorkbook
     test_rowColToExcel
     
     gStop
