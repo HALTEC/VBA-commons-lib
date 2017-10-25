@@ -2,7 +2,7 @@ VERSION 1.0 CLASS
 BEGIN
   MultiUse = -1  'True
 END
-Attribute VB_Name = "Strings"
+Attribute VB_Name = "Stringx"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -49,7 +49,7 @@ Public Function format(format_string As String, ParamArray values()) As String
         Dim uniqueCount As Integer
         Dim tmpCSV As String
         For Each thisMatch In matches
-            If Not Strings.contains(tmpCSV, thisMatch.SubMatches(1), False) Then
+            If Not Stringx.contains(tmpCSV, thisMatch.SubMatches(1), False) Then
                 uniqueCount = uniqueCount + 1
                 tmpCSV = tmpCSV & thisMatch.SubMatches(1) & ","
             End If
@@ -59,7 +59,7 @@ Public Function format(format_string As String, ParamArray values()) As String
         If matches.count > 0 And uniqueCount <> values_count Then _
             Error.RaiseInvalidFormatError ERR_SOURCE, "Unique indices mismatch values count."
         
-        If Strings.contains(format_string, "\\") Then _
+        If Stringx.contains(format_string, "\\") Then _
             format_string = replace(format_string, "\\", Chr$(27))
     
         If matches.count = 0 And format_string <> vbNullString And UBound(values) = -1 Then
@@ -93,21 +93,21 @@ Public Function format(format_string As String, ParamArray values()) As String
             'get the alignment specifier if it is specified:
             alignmentGroup = thisMatch.SubMatches(2)
             If alignmentGroup <> vbNullString Then _
-                alignmentSpecifier = right$(alignmentGroup, LenB(alignmentGroup) / 2 - 1)
+                alignmentSpecifier = Right$(alignmentGroup, LenB(alignmentGroup) / 2 - 1)
             
             
             'get the format specifier if it is specified:
             thisString = thisMatch.value
-            If Strings.contains(thisString, ":") Then
+            If Stringx.contains(thisString, ":") Then
                 
                 Dim formatGroup As String, precisionSpecifier As Integer
                 Dim formatSpecifier As String, precisionString As String
                 
                 'get the string between ":" and "}":
                 formatGroup = Mid$(thisString, InStr(1, thisString, ":") + 1, (LenB(thisString) / 2) - 2)
-                formatGroup = left$(formatGroup, LenB(formatGroup) / 2 - 1)
+                formatGroup = Left$(formatGroup, LenB(formatGroup) / 2 - 1)
                 
-                precisionString = right$(formatGroup, LenB(formatGroup) / 2 - 1)
+                precisionString = Right$(formatGroup, LenB(formatGroup) / 2 - 1)
                 formatSpecifier = Mid$(thisString, InStr(1, thisString, ":") + 1, 1)
                                 
                 'applicable formatting depends on the type of the value (yes, GOTO!!):
@@ -145,7 +145,7 @@ NumberFormatSpecifiers:
                     
                     precisionSpecifier = CInt(precisionString)
                     thisFormat = "0"
-                    thisFormat = right$(String$(precisionSpecifier, "0") & thisFormat, _
+                    thisFormat = Right$(String$(precisionSpecifier, "0") & thisFormat, _
                         IIf(precisionSpecifier = 0, Len(thisFormat), precisionSpecifier))
                     
                     
@@ -190,21 +190,21 @@ NumberFormatSpecifiers:
                     
                     Dim eNotation As String, ePower As Integer, specifier As String
                     precisionSpecifier = IIf(CInt(precisionString) > 0, CInt(precisionString), _
-                        IIf(Strings.contains(v, "."), Len(v) - InStr(1, v, "."), 0))
+                        IIf(Stringx.contains(v, "."), Len(v) - InStr(1, v, "."), 0))
                     
                     'track character case of formatSpecifier:
                     specifier = IIf(formatSpecifier = "G", "D", "d")
                     
                     If TypeName(values(p)) = "Integer" Or TypeName(values(p)) = "Long" Then
                         'Integer types: use {0:D} (recursive call):
-                        formattedValue = Strings.format("{0:" & specifier & "}", values(p))
+                        formattedValue = Stringx.format("{0:" & specifier & "}", values(p))
                     
                     ElseIf TypeName(values(p)) = "Double" Then
                         'Non-integer types: use {0:E}
                         specifier = IIf(formatSpecifier = "G", "E", "e")
                         
                         'evaluate the exponential notation value (recursive call):
-                        eNotation = Strings.format("{0:" & specifier & "}", v)
+                        eNotation = Stringx.format("{0:" & specifier & "}", v)
                         
                         'get the power of eNotation:
                         ePower = Mid$(eNotation, InStr(1, UCase$(eNotation), "E-") + 1, Len(eNotation) - InStr(1, UCase$(eNotation), "E-"))
@@ -213,7 +213,7 @@ NumberFormatSpecifiers:
                             'use {0:F} when ePower > -5 and abs(ePower) < precisionSpecifier:
                             'evaluate the floating-point value (recursive call):
                              specifier = IIf(formatSpecifier = "G", "F", "f")
-                             formattedValue = Strings.format("{0:" & formatSpecifier & _
+                             formattedValue = Stringx.format("{0:" & formatSpecifier & _
                                  IIf(precisionSpecifier <> 0, precisionString, vbNullString) & "}", values(p))
                         Else
                             'fallback to {0:E} if previous rule didn't apply:
@@ -276,7 +276,7 @@ NumberFormatSpecifiers:
                     precisionSpecifier = CInt(precisionString)
                     
                     If LenB(precisionString) > 0 Then 'precision here stands for left padding
-                        v = right$(String$(precisionSpecifier, "0") & v, IIf(precisionSpecifier = 0, Len(v), precisionSpecifier))
+                        v = Right$(String$(precisionSpecifier, "0") & v, IIf(precisionSpecifier = 0, Len(v), precisionSpecifier))
                     End If
                     
                     'add C# hex specifier, apply specified casing:
@@ -358,7 +358,7 @@ AlignFormattedValue:
             End If
             
             'Replace C# hex specifier with VB6 hex specifier:
-            If Strings.contains(formattedValue, "0x", False) Then formattedValue = replace$(formattedValue, "0x", "&H")
+            If Stringx.contains(formattedValue, "0x", False) Then formattedValue = replace$(formattedValue, "0x", "&H")
             
             'replace all occurrences of placeholder {i} with their formatted values:
             return_value = replace(return_value, thisString, formattedValue, count:=1)
@@ -370,15 +370,15 @@ AlignFormattedValue:
         
 checkEscapes:
         'if there's no more backslashes, don't bother checking for the rest:
-        If Not Strings.contains(return_value, "\") Then GoTo normalExit
+        If Not Stringx.contains(return_value, "\") Then GoTo normalExit
         
         Dim escape As EscapeSequence
         For i = 0 To escapes.count - 1
             Set escape = escapes(CStr(i))
-            If Strings.contains(return_value, escape.EscapeString, False) Then _
+            If Stringx.contains(return_value, escape.EscapeString, False) Then _
                 return_value = replace(return_value, escape.EscapeString, escape.ReplacementString)
         
-            If Not Strings.contains(return_value, "\") Then _
+            If Not Stringx.contains(return_value, "\") Then _
                 GoTo normalExit
         Next
         
@@ -401,7 +401,7 @@ checkEscapes:
         End If
         
         'if there's no more backslashes, don't bother checking for the rest:
-        If Not Strings.contains(return_value, "\") Then GoTo normalExit
+        If Not Stringx.contains(return_value, "\") Then GoTo normalExit
         
         'replace "ASCII (hex)" escape sequence
         Set regex = New RegExp
@@ -421,7 +421,7 @@ checkEscapes:
         End If
 
 normalExit:
-    If Strings.contains(return_value, Chr$(27)) Then return_value = replace(return_value, Chr$(27), "\")
+    If Stringx.contains(return_value, Chr$(27)) Then return_value = replace(return_value, Chr$(27), "\")
     format = return_value
    
 End Function
@@ -463,7 +463,7 @@ Public Function startsWith(ByVal text As String, ByVal prefix As String, Optiona
         prefix = LCase$(prefix)
     End If
 
-    startsWith = left$(text, LenB(prefix) / 2) = prefix
+    startsWith = Left$(text, LenB(prefix) / 2) = prefix
 End Function
 
 Public Function endsWith(ByVal text As String, ByVal postfix As String, Optional ByVal caseSensitive As Boolean = True) As Boolean
@@ -473,7 +473,7 @@ Public Function endsWith(ByVal text As String, ByVal postfix As String, Optional
         postfix = LCase$(postfix)
     End If
     
-    endsWith = right$(text, LenB(postfix) / 2) = postfix
+    endsWith = Right$(text, LenB(postfix) / 2) = postfix
 
 End Function
 
@@ -484,7 +484,7 @@ End Function
 
 
 Public Function trimCharStart(ByVal text As String, Optional ByVal chars As String = " " & vbCr & vbLf & vbTab & vbFormFeed & vbVerticalTab) As String
-    Do While InStr(1, chars, left(text, 1)) > 0
+    Do While InStr(1, chars, Left(text, 1)) > 0
         text = substr(text, 1)
     Loop
     trimCharStart = text
@@ -492,7 +492,7 @@ End Function
 
 
 Public Function trimCharEnd(ByVal text As String, Optional ByVal chars As String = " " & vbCr & vbLf & vbTab & vbFormFeed & vbVerticalTab) As String
-    Do While InStr(1, chars, right(text, 1)) > 0
+    Do While InStr(1, chars, Right(text, 1)) > 0
         text = substr(text, 0, -1)
     Loop
     trimCharEnd = text
@@ -516,7 +516,7 @@ Public Function substr(ByVal text As String, ByVal startIndex As Integer, Option
     End If
     
     If intLength < 0 Then
-        Err.Raise E_INDEXOUTOFRANGE, "Strings.substr()", "End index is smaller than start index."
+        Err.Raise E_INDEXOUTOFRANGE, "Stringx.substr()", "End index is smaller than start index."
     End If
     
     substr = Mid(text, startIndex + 1, intLength)
@@ -556,7 +556,7 @@ Public Function join(l As List, separator As String) As String
     Next
     
     If result <> "" Then
-        join = Strings.substr(result, 0, -Len(separator))
+        join = Stringx.substr(result, 0, -Len(separator))
     Else
         join = result
     End If
@@ -577,7 +577,7 @@ End Function
 
 Public Function repeat(text As String, times As Integer) As String
     If times < 0 Then
-        Err.Raise E_ARGUMENTOUTOFRANGE, "Strings.Repeat()", "Repetition count must not be negative."
+        Err.Raise E_ARGUMENTOUTOFRANGE, "Stringx.Repeat()", "Repetition count must not be negative."
     End If
 
     Dim result As String

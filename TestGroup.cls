@@ -50,7 +50,7 @@ Public Function getError(Optional indentation As Integer = 0) As String
     out = ""
 
     If errorCount > 0 Then
-        out = out & Strings.repeat("  ", indentation)
+        out = out & Stringx.repeat("  ", indentation)
         out = out & name & vbCrLf
 
         Dim subTest As Variant

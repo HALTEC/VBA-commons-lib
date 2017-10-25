@@ -76,7 +76,7 @@ Common operations on numeric values. E.g. C<min()>, C<max()>, C<cmp()>
 
 Functions to help with using the C<VBScript_RegExp_55.RegExp> class.
 
-=head2 Strings
+=head2 Stringx
 
 Common operations on string values. E.g. C<split()>, C<join()>, C<format()>
 

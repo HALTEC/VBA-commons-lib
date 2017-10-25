@@ -35,11 +35,11 @@ Public Function getError(Optional indentation As Integer = 0) As String
     out = ""
 
     If errorCount > 0 Then
-        out = out & Strings.repeat("  ", indentation)
+        out = out & Stringx.repeat("  ", indentation)
         If message = "" Then
-            out = out & Strings.format("{0,3} {1} || {2}", number, testType, errorInfo)
+            out = out & Stringx.format("{0,3} {1} || {2}", number, testType, errorInfo)
         Else
-            out = out & Strings.format("{0,3} {1} || {2} || {3}", number, testType, errorInfo, message)
+            out = out & Stringx.format("{0,3} {1} || {2} || {3}", number, testType, errorInfo, message)
         End If
     End If
 

@@ -96,8 +96,8 @@ Private Sub checkType(value As Variant, member As String)
             End If
         Else
             If Not isTypeCompatible(value) Then
-                Err.Raise E_TYPEMISMATCH, Strings.format("{0}.{1}", toString, member), _
-                      Strings.format("Type Mismatch. Expected: '{0}' Given: '{1}'", innerType, TypeName(value))
+                Err.Raise E_TYPEMISMATCH, Stringx.format("{0}.{1}", toString, member), _
+                      Stringx.format("Type Mismatch. Expected: '{0}' Given: '{1}'", innerType, TypeName(value))
             End If
         End If
     Else
@@ -731,9 +731,9 @@ End Function
 
 Public Function toString() As String
 Attribute toString.VB_Description = "Returns a string that represents the current List object."
-    toString = Strings.format("{0}<{1}>", TypeName(Me), getPrettyInnerTypeName)
+    toString = Stringx.format("{0}<{1}>", TypeName(Me), getPrettyInnerTypeName)
 End Function
 
 Public Function gist() As String
-    gist = "[" & Strings.join(Me, ", ") & "]<" & getPrettyInnerTypeName & ">"
+    gist = "[" & Stringx.join(Me, ", ") & "]<" & getPrettyInnerTypeName & ">"
 End Function

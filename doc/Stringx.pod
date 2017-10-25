@@ -1,25 +1,26 @@
 =pod
 
-=head1 Strings
+=head1 Stringx
 
 A collection of C<String> handling functions
 
 =head1 SYNOPSIS
 
-    Strings.format "{0,3}: {1}", 2, "description" ' "  2: description"
-    Strings.split "this is stuff" ' ["this" "is" "stuff"]
-    Strings.join List_create("this", "is", "stuff"), " " ' "this is stuff"
+    Stringx.format "{0,3}: {1}", 2, "description" ' "  2: description"
+    Stringx.split "this is stuff" ' ["this" "is" "stuff"]
+    Stringx.join List_create("this", "is", "stuff"), " " ' "this is stuff"
     
 =head1 DESCRIPTION
 
-This C<Strings> class provides some commonly used operations on strings that are
-not provided by VBA.
+This C<Stringx> class provides some commonly used operations on strings that are
+not provided by VBA. The class is called C<Stringx> instead of C<Strings> to not
+collide with the standard VBA C<VBA.Strings> class.
 
 =head1 FUNCTIONS
 
 =head2 format
 
-    Strings.format "{0,3}: {1}", 2, "description" ' "  2: description"
+    Stringx.format "{0,3}: {1}", 2, "description" ' "  2: description"
 
 Format a string using placeholders and formatting annotations. This function
 closely follows the .Net C<String.Format()> implementation. For a detailed
@@ -99,22 +100,15 @@ C<Variants.gist()> is used to stringify the value.
 
 =head2 toChars
 
-    Strings.toChars("abc") ' ["a" "b" "c"]
+    Stringx.toChars("abc") ' ["a" "b" "c"]
 
 Explodes the string into a C<String> typed C<List> of single characters.
 
 =head2 repeat
 
-    Strings.repeat("<>", 10) ' "<><><><><><><><><><>"
+    Stringx.repeat("<>", 10) ' "<><><><><><><><><><>"
 
 Repeats the given text.
 Throws C<E_ARGUMENTOUTOFRANGE> if the repetition number is negative.
-
-=head1 BUGS AND LIMITATIONS
-
-Do not confuse this class with the C<VBA.Strings> module which also contains
-string related functions. In general the functions in that module can be
-accessed using the plain function name without the C<VBA.Strings.> prefix, while
-the functions in this class need to be called using C<Strings.function()>.
 
 =cut

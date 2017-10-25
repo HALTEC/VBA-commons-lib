@@ -633,7 +633,7 @@ Private Sub test_sort()
     equals List_create().sort, List_create()
     
     On Error Resume Next
-    List_create(Strings).sort
+    List_create(Stringx).sort
     checkError E_ILLEGALSTATE, "Sorting unsortable things fails"
     On Error GoTo 0
     
