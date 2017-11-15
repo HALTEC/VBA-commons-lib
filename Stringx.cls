@@ -484,18 +484,26 @@ End Function
 
 
 Public Function trimCharStart(ByVal text As String, Optional ByVal chars As String = " " & vbCr & vbLf & vbTab & vbFormFeed & vbVerticalTab) As String
-    Do While InStr(1, chars, Left(text, 1)) > 0
-        text = substr(text, 1)
-    Loop
-    trimCharStart = text
+    If Len(text) = 0 Then
+        trimCharStart = ""
+    Else
+        Do While InStr(1, chars, Left(text, 1)) > 0
+            text = substr(text, 1)
+        Loop
+        trimCharStart = text
+    End If
 End Function
 
 
 Public Function trimCharEnd(ByVal text As String, Optional ByVal chars As String = " " & vbCr & vbLf & vbTab & vbFormFeed & vbVerticalTab) As String
-    Do While InStr(1, chars, Right(text, 1)) > 0
-        text = substr(text, 0, -1)
-    Loop
-    trimCharEnd = text
+    If Len(text) = 0 Then
+        trimCharEnd = ""
+    Else
+        Do While InStr(1, chars, Right(text, 1)) > 0
+            text = substr(text, 0, -1)
+        Loop
+        trimCharEnd = text
+    End If
 End Function
 
 

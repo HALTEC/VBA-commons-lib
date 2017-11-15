@@ -43,6 +43,7 @@ Private Sub test_trimChar()
     gStart "trimChar"
     
     equals Stringx.trimChar(" as df "), "as df", "Normales trim geht"
+    equals Stringx.trimChar(""), ""
     
     gStop
 End Sub
@@ -56,6 +57,7 @@ Private Sub test_trimCharStart()
     equals Stringx.trimCharStart(",as,df", ","), "as,df"
     equals Stringx.trimCharStart(",as,df", ",;"), "as,df"
     equals Stringx.trimCharStart(";,as,df", ",;"), "as,df"
+    equals Stringx.trimCharStart(""), ""
     
     gStop
 End Sub
@@ -69,6 +71,7 @@ Private Sub test_trimCharEnd()
     equals Stringx.trimCharEnd("as,df,", ","), "as,df"
     equals Stringx.trimCharEnd("as,df,", ",;"), "as,df"
     equals Stringx.trimCharEnd("as,df;,", ",;"), "as,df"
+    equals Stringx.trimCharEnd(""), ""
     
     gStop
 End Sub
