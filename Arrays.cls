@@ -128,6 +128,19 @@ Public Function emptyIntegerArray() As Integer()
     emptyIntegerArray = i
 End Function
 
+Public Function emptyByteArray() As Byte()
+    ' Taken from http://stackoverflow.com/a/21290864/1975049
+    Dim b() As Byte
+    Dim v As Variant
+    v = Array()
+    
+    Dim NewTypeCode As Integer
+    NewTypeCode = vbArray Or vbByte
+    GetMem2 NewTypeCode, v
+    b = v
+    emptyByteArray = b
+End Function
+
 Public Function elems(arr As Variant) As Long
     elems = UBound(arr) - LBound(arr) + 1
 End Function

@@ -51,6 +51,15 @@ Creates and returns a dynamic empty C<Integer> array.
 C<LBound> is 0 and C<UBound> is -1.
 C<Arrays.elems()> will return 0 for such an array.
 
+=head2 emptyByteArray
+
+    Dim b() As Byte
+    b = Arrays.emptyByteArray
+
+Creates and returns a dynamic empty C<Byte> array.
+C<LBound> is 0 and C<UBound> is -1.
+C<Arrays.elems()> will return 0 for such an array.
+
 =head2 elems
 
     Dim i(3) As Integer ' 0 - 3
