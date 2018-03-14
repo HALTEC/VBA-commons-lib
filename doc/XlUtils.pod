@@ -39,6 +39,13 @@ The workbook path must be absolute for this function to work.
 Checks whether a given workbook is open. The workbook path must be absolute for
 this function to work.
 
+=head2 isWorkbookNameOpen
+
+    XlUtils.isWorkbookNameOpen "myworkbook.xlsx"
+
+Checks whether a given workbook is open. The workbook name is the filename
+without the path.
+
 =head2 getOpenWorkbook
 
     Set myworkbook = XlUtils.getOpenWorkbook("C:\myworkbook.xlsx")

@@ -72,6 +72,18 @@ Public Function isWorkbookOpen(path As String) As Boolean
     Next
 End Function
 
+Public Function isWorkbookNameOpen(workbookFilename As String) As Boolean
+    isWorkbookNameOpen = False
+    
+    Dim wb As Workbook
+    For Each wb In Application.Workbooks
+        If wb.name = workbookFilename Then
+            isWorkbookNameOpen = True
+            Exit Function
+        End If
+    Next
+End Function
+
 Public Function getOpenWorkbook(path As String) As Workbook
 ' Works only with absolute paths.
     Dim wb As Workbook
