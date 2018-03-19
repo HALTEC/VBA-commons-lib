@@ -1,0 +1,90 @@
+=pod
+
+=head1 IO
+
+Functions to deal with files and encodings
+
+=head1 SYNOPSIS
+
+    IO.spurt "log.txt", "Stuff happened!", append:=True
+    
+    Dim conf As String
+    conf = IO.slurp("config.json")
+
+=head1 DESCRIPTION
+
+The C<IO> class provides pleasant file I/O and encoding/decoding functions.
+
+=head1 FUNCTIONS
+
+=head2 spurt
+
+    spurt(filename As String, content As Variant, _
+        Optional enc As String = "utf-8", _
+        Optional append As Boolean = False, _
+        Optional createOnly As Boolean = False)
+
+Writes C<content> to C<filename>. If content is a C<String> C<enc> is used as
+the encoding. If content is a C<Byte()> it is written to the file as is. If
+C<append> is C<True> the file is not overwritten but appended to.
+This function uses the .Net encoding names, see C<IO.encode()>.
+No newline transformation is performed on the input.
+
+Throws C<E_FILEEXISTS> if C<filename> exists and C<createOnly> is C<True>.
+Throws C<E_TYPEMISMATCH> if content is neither a C<String> nor a C<Byte()>.
+Throws C<E_INVALIDINPUT> if the given String content can not be encoded in that
+encoding e.g. if the encoding can not represent all characters present in the
+string.
+Throws C<E_UNKNOWNENCODING> if the given encoding is not known.
+
+=head2 slurp
+
+    slurp(filename As String, _
+        Optional enc As String = "utf-8", _
+        Optional bin As Boolean = False) As Variant
+
+Reads the contents of C<filename> into a variable. If C<bin> is False (the
+default) the file content will be decoded using the C<enc> encoding and a
+C<String> will be returned. If C<bin> is True, C<enc> is ignored and a
+C<Byte()> will be returned.
+No newline transformation is performed on the input.
+
+Throws C<E_FILENOTFOUND> if the given C<filename> does not exist.
+Throws C<E_INVALIDINPUT> if the given file content is not valid with respect to
+the given encoding.
+Throws C<E_UNKNOWNENCODING> if the given encoding is not known.
+
+=head2 encode
+
+    encode(ByRef inString As String, enc As String) As Byte()
+
+Encodes the given C<inString> using C<enc> as encoding and returns the resulting
+C<Byte()>.
+
+Throws C<E_INVALIDINPUT> if the given String content can not be encoded in that
+encoding e.g. if the encoding can not represent all characters present in the
+string.
+
+=head2 decode
+
+    decode(ByRef inBuffer() As Byte, enc As String) As String
+
+Decodes the given C<inBuffer> using C<enc> as encoding and returns the resulting
+C<String>.
+
+Throws C<E_INVALIDINPUT> if the given Byte() content is not valid with respect
+to the given encoding.
+
+=head2 fileExists
+
+    fileExists(ByVal path As String) As Boolean
+    
+True if a file exists at C<path> location, False otherwise.
+
+=head2 dirExists
+
+    dirExists(ByVal path As String) As Boolean
+
+True if a directory exists at C<path> location, False otherwise.
+
+=cut

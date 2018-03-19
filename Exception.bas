@@ -33,6 +33,11 @@ Public Const E_DUPLICATEINPUT = 640
 Public Const E_XLUTILS = 768
 Public Const E_WORKBOOKNOTOPEN = 768
 
+' IO errors. 896 - 1023
+Public Const E_IO = 896
+Public Const E_FILEEXISTS = 896
+Public Const E_FILENOTFOUND = 897
+
 
 Public Function isErrGroup(errNo As Long, errGroup As Long) As Boolean
     isErrGroup = getErrGroup(errNo) = errGroup

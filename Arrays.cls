@@ -8,6 +8,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = True
 Option Explicit
+Option Base 0 ' Default
 
 Private Declare Sub GetMem2 Lib "msvbvm60" (src As Any, dest As Any)
 
@@ -164,3 +165,5 @@ Public Function toVariantArray(arr As Variant) As Variant()
         toVariantArray = varArr
     End If
 End Function
+
+
