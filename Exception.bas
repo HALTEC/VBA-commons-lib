@@ -37,6 +37,7 @@ Public Const E_WORKBOOKNOTOPEN = 768
 Public Const E_IO = 896
 Public Const E_FILEEXISTS = 896
 Public Const E_FILENOTFOUND = 897
+Public Const E_UNKNOWNENCODING = 898
 
 
 Public Function isErrGroup(errNo As Long, errGroup As Long) As Boolean
