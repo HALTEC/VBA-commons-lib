@@ -35,11 +35,11 @@ Private Declare Function GetLastError Lib "kernel32.dll" () As Long
 ' In short: Declare as LongPtr, not String, pass String using StrPtr(), because VBA always converts its nice unicode strings
 ' to ANSI when it sees String in a Declare statement.
 Private Declare Function PathIsRelativeW Lib "shlwapi.dll" ( _
-    ByVal lpszPath As LongPtr) As Boolean
+    ByVal lpszPath As Long) As Boolean
 
 Private Declare Function GetTempPathW Lib "kernel32.dll" ( _
     ByVal nBufferLength As Long, _
-    ByVal lpBuffer As LongPtr) As Long
+    ByVal lpBuffer As Long) As Long
 
 
 Public Function pathIsRelative(ByVal path As String) As Boolean
