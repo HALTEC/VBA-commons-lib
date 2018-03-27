@@ -31,6 +31,70 @@ Private Declare Function MultiByteToWideChar Lib "kernel32.dll" ( _
 
 Private Declare Function GetLastError Lib "kernel32.dll" () As Long
 
+' For how to use the *W functions see: http://blog.nkadesign.com/2013/vba-unicode-strings-and-the-windows-api/
+' In short: Declare as LongPtr, not String, pass String using StrPtr(), because VBA always converts its nice unicode strings
+' to ANSI when it sees String in a Declare statement.
+Private Declare Function PathIsRelativeW Lib "shlwapi.dll" ( _
+    ByVal lpszPath As LongPtr) As Boolean
+
+Private Declare Function GetTempPathW Lib "kernel32.dll" ( _
+    ByVal nBufferLength As Long, _
+    ByVal lpBuffer As LongPtr) As Long
+
+
+Public Function pathIsRelative(ByVal path As String) As Boolean
+    pathIsRelative = PathIsRelativeW(StrPtr(path))
+End Function
+
+
+Public Function pathJoin(ParamArray fragments() As Variant) As String
+    Dim i As Integer
+    Dim resultPath As String, t
+    resultPath = ""
+    For i = LBound(fragments) To UBound(fragments)
+        If TypeName(fragments(i)) <> "String" Then
+            Err.Raise E_INVALIDINPUT
+        End If
+        
+        If fragments(i) <> "" Then
+            If resultPath = "" Then
+                resultPath = fragments(i)
+            ElseIf Stringx.endsWith(resultPath, "\") And Stringx.startsWith(fragments(i), "\") Then
+                resultPath = resultPath & Stringx.substr(fragments(i), 1)
+            ElseIf Not Stringx.endsWith(resultPath, "\") And Not Stringx.startsWith(fragments(i), "\") Then
+                resultPath = resultPath & "\" & fragments(i)
+            Else
+                resultPath = resultPath & fragments(i)
+            End If
+        End If
+    Next
+    
+    pathJoin = resultPath
+End Function
+
+
+Public Function pathTempPath() As String
+    ' According to https://msdn.microsoft.com/en-us/library/windows/desktop/aa364992(v=vs.85).aspx
+    Dim bufferLength As Long: bufferLength = 261
+    
+    Dim buffer As String
+    buffer = String$(bufferLength, "_")
+    
+    Dim pathLength As Long: pathLength = GetTempPathW(bufferLength, StrPtr(buffer))
+    
+    If pathLength = 0 Then
+        Err.Raise E_INTERNALERROR
+    Else
+        If pathLength > bufferLength Then
+            Err.Raise E_INTERNALERROR, description:="Path is longer than expected."
+        End If
+        
+        buffer = Left$(buffer, pathLength)
+    End If
+    
+    pathTempPath = buffer
+End Function
+
 
 Function dirExists(ByVal path As String) As Boolean
     On Error Resume Next

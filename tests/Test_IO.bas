@@ -15,10 +15,45 @@ Const testFolder = "C:\data\repos\VBA-commons-lib\tests\IO\"
 Private Sub test_all()
     gStart "IO"
     
+    test_pathIsRelative
+    test_pathJoin
     test_encode
     test_decode
     test_slurp
     test_spurt
+    
+    gStop
+End Sub
+
+Private Sub test_pathIsRelative()
+    gStart "pathIsRelative"
+    
+    equals IO.pathIsRelative("one"), True, "simple relative path"
+    equals IO.pathIsRelative("C:\one"), False, "simple absolute path"
+    equals IO.pathIsRelative("\one"), False, "leading backslash is absolute"
+    equals IO.pathIsRelative("C:\one\two\..\three\"), False, "complex absolute path"
+    equals IO.pathIsRelative("one\two\..\three\"), True, "complex relative path"
+    
+    gStop
+End Sub
+
+Private Sub test_pathJoin()
+    gStart "pathJoin"
+    
+    equals IO.pathJoin("one", "two"), "one\two", "no separators in between"
+    equals IO.pathJoin("one\", "two"), "one\two", "separator after path 1"
+    equals IO.pathJoin("one", "\two"), "one\two", "separator before path 2"
+    equals IO.pathJoin("one\", "\two"), "one\two", "separator after path 1 and before path 2"
+    
+    equals IO.pathJoin("", "two"), "two", "empty path 1"
+    equals IO.pathJoin("", "C:\two"), "C:\two", "empty path 1 and absolute path 2"
+    equals IO.pathJoin("C:\one", ""), "C:\one", "empty path 1 and absolute path 2"
+    
+    equals IO.pathJoin("C:\one", "two", "three", "four"), "C:\one\two\three\four", "multiple paths"
+    
+    equals IO.pathJoin("\one", "two"), "\one\two", "leading backslash"
+    
+    equals IO.pathJoin("\\one\\", "\two\\"), "\\one\\two\\", "excess backslashes"
     
     gStop
 End Sub

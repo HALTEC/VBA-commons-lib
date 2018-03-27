@@ -87,4 +87,32 @@ True if a file exists at C<path> location, False otherwise.
 
 True if a directory exists at C<path> location, False otherwise.
 
+=head2 pathIsRelative
+
+    pathIsRelative(ByVal path As String) As Boolean
+
+C<True> if a path string is relative, C<False> otherwise. It's a thin wrapper
+around L<the Windows C<PathIsRelativeW> function|https://msdn.microsoft.com/en-us/library/windows/desktop/bb773660(v=vs.85).aspx>.
+
+=head2 pathJoin
+
+    pathJoin(ParamArray fragments() As Variant) As String
+
+Joins one or more path segments together. If backslashes inbetween fragments are
+missing they are inserted. If one segment ends in a backslash and the following
+starts with one one will be removed. No further processing on the path string is
+performed.
+
+Throws C<E_INVALIDINPUT> if a parameter is a type other than C<String>.
+
+=head2 pathTempPath
+
+    pathTempPath() As String
+
+Returns a path string to a temporary folder. It's a thin wrapper around
+L<the Windows C<GetTempPathW> function|https://msdn.microsoft.com/en-us/library/windows/desktop/aa364992(v=vs.85).aspx>.
+
+Throws C<E_INTERNALERROR> if the API function itself has a problem. This
+shouldn't happen under normal conditions.
+
 =cut
