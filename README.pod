@@ -2,17 +2,18 @@
 
 =head1 VBA commons library
 
-A collection of basic auxiliary classes and modules to complement VBA
+Basic auxiliary classes and modules to complement VBA
 
 =head1 DESCRIPTION
 
-This library tries to be a basic and easy to understand collection of
-functionality that VBA does not provide but is commonly needed. It does not
-intend to be a one stop solution for everything VBA.
+This library is a collection of modules and classes to complement VBA. The
+library is not intended as a one stop solution for everything VBA. It contains
+components for IO, VBA datastructure handling, a C<Collection>
+replacement, testing and some more.
 
 =head2 Constructors
 
-The classes in this package use a uniform, but non standard mechanism for
+The classes in this package use a uniform, but non-standard mechanism for
 constructing objects. Each class is accompanied by a function in the
 C<Constructors> module named C<ClassName_create()> which returns a fully
 constructed instance of the repective class. These functions may take
@@ -27,14 +28,14 @@ method is responsible for initialization of the class, but not for creating the
 object instance itself.
 The C<Constructors.ClassName_create()> function creates a class instance, calls
 the C<init()> method, forwarding all parameters it got, and returns the
-so initialized instance.
+fully initialized instance.
 
 =head2 Classes as Modules
 
-Most of the modules in this library are actually implemented as a Class. The
-reason is to not fill up the global funtion namespace with all the different
+Most of the modules in this library are actually implemented as Classes. The
+reason is to not fill up the global function namespace with all the different
 function names the modules provide. The functions can still be called without
-creating a class instance first by simply calling
+creating a class instance first by simply writing
 
     ClassName.functionName()
 
@@ -42,9 +43,9 @@ This is made possible using a VB class attribute.
 
     Attribute VB_PredeclaredId = True
     
-When this attribute is attached to a class VBA automatically creates an instance
-of that class on load and all method calls on the class name itself use that
-instance.
+When this attribute is attached to a class, VBA automatically creates an
+instance of that class on load and all method calls on the class name itself use
+that instance.
 
 =head2 Attributes
 
@@ -53,16 +54,20 @@ These attributes are visible in the exported text files and thus also in this
 repository, but the VBA editor hides them, they are simply not visible anymore.
 When copying methods and classes textually in the VBA editor these attributes
 can get lost. To edit them one has to export the module/class to a text file,
-edit the attributes and reimport them again. Exporting and importing is done via
-right mouse button on the class/module in the Project Explorer and then choosing
-I<Export/Import File...>.
+edit the attributes and import the module/class again. Exporting and importing
+is done via right mouse button on the class/module in the Project Explorer and
+then choosing I<Export/Import File...>.
 
 =head1 CONTENTS
 
 =head2 Arrays
 
-The C<Arrays> module provides functions to deal with array datastructures. For
+The C<Arrays> module provides functions to deal with array data structures. For
 example creating empty arrays or sorting arrays.
+
+=head2 IO
+
+Simple file IO with good encoding support.
 
 =head2 List
 
