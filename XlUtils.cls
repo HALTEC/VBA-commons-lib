@@ -145,3 +145,27 @@ Public Function rowColToExcel(ByVal row As Integer, ByVal column As Integer) As 
     rowColToExcel = result & row
 End Function
 
+Public Sub validateNumericTextBox_KeyPress(ByRef tb As MSForms.textbox, ByRef KeyAscii As MSForms.ReturnInteger)
+    Select Case KeyAscii
+        Case 48 To 57, 46: ' 0 - 9, dot
+            ' allow
+            tb.BackColor = &H80000005
+        Case 44: ' comma
+            ' change comma to dot
+            tb.BackColor = &H80000005
+            KeyAscii = 46
+        Case Else
+            ' reject everything else
+            KeyAscii = 0
+    End Select
+End Sub
+
+Public Sub validateNumericTextBox_Exit(ByRef tb As MSForms.textbox, ByRef Cancel As MSForms.ReturnBoolean)
+    If Not IsNumeric(tb.text) Then
+        tb.BackColor = &HFF&
+        Cancel = True
+    Else
+        tb.BackColor = &H80000005
+    End If
+End Sub
+
