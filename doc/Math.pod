@@ -36,4 +36,18 @@ Throws C<E_ARGUMENTOUTOFRANGE> if one of the objects is not
 C<Variants.isComparable()>.
 Throws C<E_TYPEMISMATCH> if the two values are not of the same type.
 
+=head2 ceiling
+
+    Math.ceiling(1.5) ' 2
+
+Rounds a number towards positive inifinity. So it's the nearest integer that is
+larger than the given number.
+
+=head2 floor
+
+    Math.floor(1.5) ' 1
+
+Rounds a number towards negative inifinity. So it's the nearest integer that is
+smaller than the given number.
+
 =cut

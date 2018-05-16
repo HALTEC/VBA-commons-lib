@@ -7,6 +7,8 @@ Private Sub test_all()
     test_min
     test_max
     test_cmp
+    test_ceiling
+    test_floor
     
     gStop
 End Sub
@@ -53,3 +55,32 @@ Private Sub test_cmp()
     gStop
 End Sub
 
+Private Sub test_ceiling()
+    gStart "ceiling"
+    
+    equals Math.ceiling(1), 1
+    equals Math.ceiling(0), 0
+    equals Math.ceiling(1.5), 2
+    equals Math.ceiling(12345.123), 12346
+    
+    equals Math.ceiling(-1), -1
+    equals Math.ceiling(-1.5), -1
+    equals Math.ceiling(-12345.123), -12345
+    
+    gStop
+End Sub
+
+Private Sub test_floor()
+    gStart "floor"
+    
+    equals Math.floor(1), 1
+    equals Math.floor(0), 0
+    equals Math.floor(1.5), 1
+    equals Math.floor(12345.123), 12345
+    
+    equals Math.floor(-1), -1
+    equals Math.floor(-1.5), -2
+    equals Math.floor(-12345.123), -12346
+    
+    gStop
+End Sub

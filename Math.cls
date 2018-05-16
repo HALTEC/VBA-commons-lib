@@ -50,3 +50,15 @@ Public Function cmp(value As Variant, other As Variant) As Integer
         End If
     End If
 End Function
+
+Public Function ceiling(ByVal value As Double) As Integer
+    If Int(value) = value Then
+        ceiling = value
+    Else
+        ceiling = Int(value) + 1
+    End If
+End Function
+
+Public Function floor(ByVal value As Double) As Integer
+    floor = Int(value)
+End Function
