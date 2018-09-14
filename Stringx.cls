@@ -60,7 +60,7 @@ Public Function format(format_string As String, ParamArray values()) As String
             Error.RaiseInvalidFormatError ERR_SOURCE, "Unique indices mismatch values count."
         
         If Stringx.contains(format_string, "\\") Then _
-            format_string = replace(format_string, "\\", Chr$(27))
+            format_string = Replace(format_string, "\\", Chr$(27))
     
         If matches.count = 0 And format_string <> vbNullString And UBound(values) = -1 Then
         'only format_string was specified: skip to checking escape sequences:
@@ -133,9 +133,9 @@ NumberFormatSpecifiers:
                     
                     If LenB(formatGroup) > 2 And precisionSpecifier > 0 Then
                         'if a non-zero precision is specified...
-                        thisFormat = replace$(thisFormat, ".00", "." & String$(precisionString, Chr$(48)))
+                        thisFormat = Replace$(thisFormat, ".00", "." & String$(precisionString, Chr$(48)))
                     ElseIf LenB(formatGroup) > 2 And precisionSpecifier = 0 Then
-                        thisFormat = replace$(thisFormat, ".00", vbNullString)
+                        thisFormat = Replace$(thisFormat, ".00", vbNullString)
                     End If
                     
                     
@@ -358,10 +358,10 @@ AlignFormattedValue:
             End If
             
             'Replace C# hex specifier with VB6 hex specifier:
-            If Stringx.contains(formattedValue, "0x", False) Then formattedValue = replace$(formattedValue, "0x", "&H")
+            If Stringx.contains(formattedValue, "0x", False) Then formattedValue = Replace$(formattedValue, "0x", "&H")
             
             'replace all occurrences of placeholder {i} with their formatted values:
-            return_value = replace(return_value, thisString, formattedValue, count:=1)
+            return_value = Replace(return_value, thisString, formattedValue, count:=1)
             
             'reset before reiterating:
             thisFormat = vbNullString
@@ -376,7 +376,7 @@ checkEscapes:
         For i = 0 To escapes.count - 1
             Set escape = escapes(CStr(i))
             If Stringx.contains(return_value, escape.EscapeString, False) Then _
-                return_value = replace(return_value, escape.EscapeString, escape.ReplacementString)
+                return_value = Replace(return_value, escape.EscapeString, escape.ReplacementString)
         
             If Not Stringx.contains(return_value, "\") Then _
                 GoTo normalExit
@@ -396,7 +396,7 @@ checkEscapes:
                 '"p" contains the octal number representing the ASCII code we're after:
                 p = "&O" & p 'prepend octal prefix
                 char = CLng(p)
-                return_value = replace(return_value, thisMatch.value, Chr$(char))
+                return_value = Replace(return_value, thisMatch.value, Chr$(char))
             Next
         End If
         
@@ -416,12 +416,12 @@ checkEscapes:
                 '"p" contains the hex value representing the ASCII code we're after:
                 p = "&H" & p 'prepend hex prefix
                 char = CLng(p)
-                return_value = replace(return_value, thisMatch.value, Chr$(char))
+                return_value = Replace(return_value, thisMatch.value, Chr$(char))
             Next
         End If
 
 normalExit:
-    If Stringx.contains(return_value, Chr$(27)) Then return_value = replace(return_value, Chr$(27), "\")
+    If Stringx.contains(return_value, Chr$(27)) Then return_value = Replace(return_value, Chr$(27), "\")
     format = return_value
    
 End Function
@@ -599,6 +599,128 @@ Public Function repeat(text As String, times As Integer) As String
     repeat = result
 End Function
 
+'This function is a expansion of replace
+'Parameter:
+'           input:      String,     contrains the string to edit
+'           values():   ParamArray, contains the string/chars which have to be replaced
+'Return:
+'           trans:      String,     contains the changed input string
+Public Function trans(inputString As String, ParamArray values()) As String
+ 
+    Dim CountParams     As Integer
+    Dim Counter         As Integer
+    
+    Dim RowValue        As Variant
+    Dim CheckError      As Variant
+    
+    Dim toChange        As List
+    Dim toApply         As List
+
+    Dim Replaced        As Boolean
+    
+    CountParams = UBound(values) - LBound(values) + 1
+    
+    If CountParams Mod 2 <> 0 Then
+        Err.Raise E_INVALIDINPUT
+    End If
+        
+    Counter = 0
+
+    For Each RowValue In values()
+                
+        If Counter Mod 2 = 0 Then
+
+            If varType(RowValue) <> vbObject Or TypeName(RowValue) <> "List" Then
+                Set toChange = List_create(RowValue)
+            Else
+                Set toChange = RowValue
+            End If
+            
+            For Each CheckError In toChange
+                
+                If Trim(CheckError) = "" Then
+                    Err.Raise E_INVALIDINPUT
+                End If
+                
+            Next
+            
+        ElseIf Counter Mod 2 <> 0 Then
+        
+            If varType(RowValue) <> vbObject Or TypeName(RowValue) <> "List" Then
+                Set toApply = List_create(RowValue)
+                
+               ReplaceStringWithLists inputString, toChange, toApply
+                                 
+            Else
+            
+                Set toApply = RowValue
+                                
+                If toApply.elems <> toChange.elems Then
+                    Err.Raise E_INVALIDINPUT
+                End If
+                                
+                ReplaceStringWithLists inputString, toChange, toApply
+                
+            End If
+        End If
+        
+        Counter = Counter + 1
+    Next
+
+    
+trans = inputString
+End Function
+
+
+Private Function ReplaceStringWithLists(ByRef inputString As String, ByRef toChange As List, ByRef toApply As List) As Boolean
+    On Error GoTo Error
+    ReplaceStringWithLists = False
+    
+    Dim sReplace        As Variant
+    Dim Fealding        As Variant
+    Dim ReplacedBefore  As String
+    
+    If toApply.elems < toChange.elems Then
+        
+        For Each sReplace In toChange
+            For Each Fealding In toApply
+                If ReplacedBefore <> sReplace Then
+                    inputString = Replace(inputString, sReplace, Fealding)
+                    
+                    ReplacedBefore = sReplace
+                    Exit For
+                Else
+                    GoTo NextReplacement_sReplace
+                End If
+NextReplacement_sReplace:
+            Next
+        Next
+        
+    Else
+    
+        For Each Fealding In toApply
+            For Each sReplace In toChange
+                If ReplacedBefore <> sReplace Then
+                    inputString = Replace(inputString, sReplace, Fealding)
+                    
+                    ReplacedBefore = sReplace
+                    Exit For
+                Else
+                    GoTo NextReplacement_Fealding
+                End If
+NextReplacement_Fealding:
+            Next
+        Next
+    
+    End If
+    
+    ReplacedBefore = ""
+    
+    ReplaceStringWithLists = True
+
+Error:
+    ReplaceStringWithLists = False
+End Function
 
 Private Sub Class_Initialize()
     Dim factory As New EscapeSequence

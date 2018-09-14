@@ -14,6 +14,7 @@ Private Sub test_all()
     test_split
     test_join
     test_toChars
+    test_trans
     
     gStop
 End Sub
@@ -142,6 +143,43 @@ Private Sub test_repeat()
     On Error Resume Next
     Stringx.repeat "a", -1
     checkError E_INDEXOUTOFRANGE, "Negative repetition throws"
+    On Error GoTo 0
+    
+    gStop
+End Sub
+
+Private Sub test_trans()
+    gStart "trans"
+    
+    equals Stringx.trans("abcd", "a", "x"), "xbcd", "Replacement with single replacement works."
+    equals Stringx.trans("abcd", "a", "x", "c", "y"), "xbyd", "Replacement with multiple replacement works."
+    equals Stringx.trans("abcd", "ab", "x"), "xcd", "Replacing more than one char works."
+    equals Stringx.trans("abcd", "a", "xyz"), "xyzbcd", "Inserting more than one char works."
+    equals Stringx.trans("abcd", "t", "xyz"), "abcd", "Replacing with no occurence works."
+    equals Stringx.trans("abcd"), "abcd", "No replacements work."
+    equals Stringx.trans("", "a", "b"), "", "Empty text works."
+    equals Stringx.trans("abcd", "a", ""), "bcd", "Empty replacement works."
+    
+    equals Stringx.trans("abcd", List_createLT("a", "c"), List_createLT("x", "y")), "xbyd", "Replacement with lists works."
+    equals Stringx.trans("abcd", List_createLT(), List_createLT()), "abcd", "No replacement with lists works."
+    
+    equals Stringx.trans("abcd", List_createLT("a", "c"), "x"), "xbxd", "Replacement with list and scalar works."
+    equals Stringx.trans("abcd", List_createLT("a", "c"), "x", List_createLT("b", "d"), "y"), "xyxy", "Multiple replacements with list and scalar works."
+    equals Stringx.trans("abcd", List_createLT(), ""), "abcd", "No replacement with list and scalar works."
+    
+    On Error Resume Next
+    Stringx.trans "abcd", "a"
+    checkError E_INVALIDINPUT, "Wrong argument count throws."
+    On Error GoTo 0
+    
+    On Error Resume Next
+    Stringx.trans "abcd", "", "x"
+    checkError E_INVALIDINPUT, "Empty search text throws."
+    On Error GoTo 0
+    
+    On Error Resume Next
+    Stringx.trans "abcd", List_createLT("a", "c", "d"), List_createLT("x")
+    checkError E_INVALIDINPUT, "Wrong argument count with lists throws."
     On Error GoTo 0
     
     gStop

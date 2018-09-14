@@ -111,4 +111,21 @@ Explodes the string into a C<String> typed C<List> of single characters.
 Repeats the given text.
 Throws C<E_ARGUMENTOUTOFRANGE> if the repetition number is negative.
 
+=head2 trans
+
+	Stringx.trans("abcd", "a", "x", "cd", "yz") ' "xbyz"
+
+This function is a expansion of replace
+Parameter:
+          input:      String, contrains the string to edit
+          values():   ParamArray, contains the string/chars which have to be replaced
+Return:
+          trans:      String, contains the changed input string
+		  
+=head2 ReplaceStringWithLists
+
+	ReplaceStringWithLists "abc", a, x ' "xbc"
+	
+Replaces the given variables
+		  
 =cut
