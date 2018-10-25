@@ -73,6 +73,10 @@ Simple file IO with good encoding support.
 
 An optionally typed 0-based list implementation.
 
+=head2 Map
+
+An optionally typed map implementation.
+
 =head2 Math
 
 Common operations on numeric values. E.g. C<min()>, C<max()>, C<cmp()>

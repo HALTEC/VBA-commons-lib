@@ -1,0 +1,264 @@
+=pod
+
+=head1 Map
+
+Map - An optionally typed hash table.
+
+=head1 SYNOPSIS
+
+    Dim m As Map
+    Set m = Map_create("key1", "value1", "key2", "value2")
+    m.insert("another_key", 23)
+    m("key1") = 42
+
+
+=head1 DESCRIPTION
+
+The Map class is a wrapper around Scripting.Dictionary in order to
+extend its features.
+
+=head2 Typing
+
+A Map can be create either in typed or untyped mode. This mode is set at
+construction time and cannot be changed later.
+
+=over
+
+=item *
+
+In B<untyped> mode, the map can hold keys and values of any type and also of
+different types. Such a map can be created using the C<Map_create> constructor.
+
+=item *
+
+In B<typed> mode, the map is fixed to one type for the keys and one for the values.
+Only keys and values of that type can be added to the map. When attempting to use
+keys or values of a different type, an C<E_TYPEMISMATCH> exception will be thrown.
+A typed map can be created using the C<Map_createT> or the C<Map_createLT>
+constructor. The latter form is "lazy typed", meaning that the types are
+determined based on the first key and value added.
+
+=back
+
+=head2 Performance
+
+Similar to the C<List> class using a C<Collection> internally, this class uses
+a C<Scripting.Dictionary> internally. This is probably not the most performant
+solution as it adds another layer of abstraction.
+
+=head1 METHODS 
+
+=head2 Map_create
+
+    Dim m As Map: Set m = Map_create("apple", 7, "bob", 23)
+
+Creates a new untyped Map object. The arguments are added to the Map. See L<insert>.
+
+
+=head2 Map_createT
+
+    Dim m As Map: Set m = Map_createT("KeyType", "ValueType")
+
+Creates a new B<T>yped Map object. The given strings determine the type of
+keys and values the Map can hold.
+
+
+=head2 Map_createLT
+
+    Dim m As Map: Set m = Map_createLT("apple", "banana")
+
+Creates a new B<L>azy B<T>yped Map object. The type of the Map is determined
+by the types of the first key and value added. The arguments are added to the Map.
+See L<insert>.
+
+It is possible to create an empty lazy typed Map.
+Such an empty lazy typed Map is not the same as an untyped Map. As soon as a
+key/value pair is added, the key and value types of the Map are fixed to those
+of the pair.
+
+Once the types are set, such a Map is identical to a Map created using L<Map_createT>.
+
+
+=head2 item
+
+    Debug.print m.item("key")
+    m.item("key") = "new value"
+
+Gets or sets the value pointed to by the given key. Returns B<Empty> if the key does not
+exist in the Map.
+
+
+=head2 ()
+
+    Debug.print m("key")
+    m("key") = "new value"
+
+Same as L<item>.
+
+
+=head2 elems
+
+I<ro Property>
+
+Returns the number of key/value pairs in the Map.
+
+
+=head2 typed
+
+I<ro Property>
+
+Returns whether the Map is typed.
+Returns true for a lazy typed Map that has not yet settled on its types.
+
+
+=head2 keyTypeName
+
+I<ro Property>
+
+Returns the type of the keys in the Map.
+An untyped Map returns an empty string.
+A lazy typed Map that has not yet settled on its type returns an empty string.
+
+
+=head2 valTypeName
+
+I<ro Property>
+
+Returns the type of the values in the Map.
+An untyped Map returns an empty string.
+A lazy typed Map that has not yet settled on its type returns an empty string.
+
+=head2 exists
+    
+    m.exists("key")
+
+Returns true if the given key exists or false if it doesn't.
+
+=head2 remove
+
+    m.remove "key"
+
+Removes the given key from the Map. Throws an error if the key does not exist.
+
+=head2 removeAll
+
+    m.removeAll
+
+Removes all keys from the Map.
+
+=head2 add
+
+    m.add "key", "value"
+
+Adds a single key/value pair to the Map. Throws an error if the key already exists.
+
+=head2 insert
+
+    m.insert "key", "value"
+    m.insert "a", 1, "b", 2
+
+Inserts the given values into the Map according to the following rules:
+
+=over
+
+=item *
+
+If only one argument is given which is a List object or an array, the values
+inside are taken to be key/value pairs interleaved (i.e. "key", "value", "key2", "value2").
+Throws C<E_INVALIDINPUT> if there is an odd number of elements in the List/array.
+
+=item *
+
+If only one argument is given which is a Scripting.Dictionary object, all its key/value pairs
+are simply copied as they are.
+
+=item *
+
+If only two arguments are given, both of which are Lists or arrays, the first one
+is taken to contain all the keys and the second one all the values.
+Throws C<E_INVALIDINPUT> if the Lists/arrays are not the same size.
+
+=item *
+
+If there is an arbitrary number of arguments, they are simply taken to be key/value
+pairs interleaved.
+
+=back
+
+Keys that already exist in the Map are silently overwritten.
+Throws C<E_TYPEMISMATCH> if the Map is typed and the types don't match.
+
+=head2 keys
+
+    Dim l As List: Set l = m.keys
+
+Returns a List containing all keys in the Map.
+
+=head2 values
+    
+    Dim l As List: Set l = m.values
+
+Returns a List containing all values in the Map.
+
+=head2 pairs
+
+    Dim l As List: Set l = m.pairs
+
+Returns a List containing all key/value pairs in the Map, each represented as a
+C<KeyValuePair> object with the public members C<key> and C<value>
+
+=head2 antiPairs
+
+    Dim l As List: Set l = m.antiPairs
+
+Same as L<pairs>, but as value/key instead of key/value pairs.
+
+=head2 sort
+
+    Dim l As List: Set l = m.sort(descending)
+
+Returns all key/value pairs like L<pairs>, but sorted in the given order, which can be
+C<ascending> or C<descending>. If the order is not given, it is taken to be C<ascending>.
+Throws C<E_ILLEGALSTATE> if the elements are not C<Variants.isComparable()> or are
+of different types.
+
+=head2 clone
+    
+    Dim m2 As Map: Set m2 = m.clone()
+
+Performs a shallow copy of the Map. This means that the elements inside the Map are not
+cloned, so any objects which were "copied" will still refer to the same object in the
+cloned Map.
+
+=head2 equals
+
+    m.equals(m2)
+
+Tests whether C<m> equals C<m2>. This means that the type constraints match, there are
+the same number of key/value pairs, and all the values are C<Variants.equals>. Objects
+are compared using C<Is>.
+
+=head2 toString
+
+Returns a string that represents the current Map object.
+
+=head2 gist
+
+Returns a human readable string that represents the current Map object. Only the first
+100 key/value pairs are returned, with ellipses at the end if there are more.
+
+=head1 BUGS AND LIMITATIONS
+
+=head2 Interfaces
+
+The Map object does not work with Interface hierarchies in typed mode. If you
+create a Map of a base type and try to add subtypes it will fail with a type
+mismatch. Use an untyped Map in such cases.
+
+This is a result of VBA not allowing dynamically checking a type. The C<TypeOf
+obj Is Class> construct does not allow comparing against Strings. Thus it is
+impossible to use TypeOf dynamically. C<TypeName(obj)> on the other hand only
+returns the direct class name of the given object and does not provide
+information about implemented Interfaces.
+
+=cut

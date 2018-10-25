@@ -23,8 +23,17 @@ End Sub
 Public Sub equals(ByVal value As Variant, ByVal expected As Variant, Optional message As Variant)
     Dim areEqual As Boolean
     
-    If varType(value) <> varType(expected) And _
-            IsNumeric(value) <> IsNumeric(expected) Then
+    If varType(value) = vbObject <> varType(expected) = vbObject Then
+        areEqual = False
+        GoTo Output
+    End If
+    
+    If varType(value) = vbObject And TypeName(value) <> TypeName(expected) Then
+        areEqual = False
+        GoTo Output
+    End If
+    
+    If IsNumeric(value) <> IsNumeric(expected) Then
         areEqual = False
         GoTo Output
     End If
@@ -61,9 +70,10 @@ Public Sub equals(ByVal value As Variant, ByVal expected As Variant, Optional me
         End If
     End If
     
-    ' Special case for List.
-    If varType(value) = vbObject And varType(expected) = vbObject Then
-        If TypeName(value) = "List" And TypeName(expected) = "List" Then
+    ' Special case for List and Map.
+    If varType(value) = vbObject Then
+        If (TypeName(value) = "List" And TypeName(expected) = "List") _
+                Or (TypeName(value) = "Map" And TypeName(expected) = "Map") Then
             Dim tmp As Object
             Set tmp = expected
             areEqual = value.equals(tmp)

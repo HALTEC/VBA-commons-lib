@@ -57,6 +57,10 @@ Private Sub test_create()
     List_create "Hey", 1, 2
     checkNoError "Creating a mixed type list"
     On Error GoTo 0
+    
+    Dim l3 As List: Set l3 = List_create("a")
+    Dim l4 As List: Set l4 = List_create(l3)
+    equals l4(0), "a", "Filling untyped list with list on initialize works"
 
     gStop
 End Sub
@@ -216,8 +220,9 @@ Private Sub test_innerTypeName()
     Set l = List_createT("Integer")
     equals l.innerTypeName, "Integer", "Typed list has correct typename"
     
-    Dim arr() As Integer
-    Set l = List_createLT(arr)
+    Dim arr() As Integer: arr = Arrays.emptyIntegerArray
+    Set l = List_createLT
+    l.push arr
     equals l.innerTypeName, "Integer()", "Adding an array sets the typename to array"
     
     Dim untypedVar As Variant
@@ -229,12 +234,14 @@ Private Sub test_innerTypeName()
     equals l.innerTypeName, "Integer", "Adding an int Variant sets the type name to the inner type"
     
     Dim listTypedVar As Variant: Set listTypedVar = List_create
-    Set l = List_createLT(listTypedVar)
+    Set l = List_createLT
+    l.push listTypedVar
     equals l.innerTypeName, "List", "Adding a list object Variant sets the type name to the inner type"
     
-    Dim arr2() As Integer
+    Dim arr2() As Integer: arr2 = Arrays.emptyIntegerArray
     Dim arrTypedVar As Variant: arrTypedVar = arr2
-    Set l = List_createLT(arrTypedVar)
+    Set l = List_createLT
+    l.push arrTypedVar
     equals l.innerTypeName, "Integer()", "Adding an array Variant sets the typename to array"
     
     gStop

@@ -32,6 +32,29 @@ Public Function List_createLT(ParamArray values() As Variant) As List
     Set List_createLT = l
 End Function
 
+Public Function Map_create(ParamArray values() As Variant) As Map
+    Dim arr As Variant: arr = values
+    Dim m As New Map
+    m.init arr
+
+    Set Map_create = m
+End Function
+
+Public Function Map_createT(keyType As String, valueType As String) As Map
+    Dim m As New Map
+    m.initT keyType, valueType
+    
+    Set Map_createT = m
+End Function
+
+Public Function Map_createLT(ParamArray values() As Variant) As Map
+    Dim arr As Variant: arr = values
+    Dim m As New Map
+    m.initLT arr
+    
+    Set Map_createLT = m
+End Function
+
 Public Function TestResult_create(pass As Boolean, number As Integer, testType As String, errorInfo As String, message As String) As TestResult
     Dim t As New TestResult
     t.init pass, number, testType, errorInfo, message

@@ -10,11 +10,6 @@ Attribute VB_Exposed = True
 Option Explicit
 Option Base 0 ' Default
 
-Public Enum sortOrder
-    descending
-    ascending
-End Enum
-
 Private c As Collection
 Private isTyped As Boolean
 Private innerType As String
@@ -25,8 +20,12 @@ Private innerType As String
 Public Sub init(arr As Variant)
     isTyped = False
     Set c = New Collection
-    
-    append arr
+
+    If LBound(arr) = UBound(arr) Then
+        append arr(LBound(arr))
+    Else
+        append arr
+    End If
 End Sub
 
 ' Typed list initialized with a type string.
@@ -42,7 +41,11 @@ Public Sub initLT(arr As Variant)
     isTyped = True
     Set c = New Collection
     
-    append arr
+    If (LBound(arr) = UBound(arr)) Then
+        append arr(LBound(arr))
+    Else
+        append arr
+    End If
 End Sub
 
 '' ***************************************************************************************
@@ -125,11 +128,11 @@ Private Sub addBefore(ByVal index As Long, ByRef value As Variant)
     End If
 
     If c.count = 0 Then
-        c.Add value
+        c.add value
     ElseIf index = 0 Then
-        c.Add value, before:=1
+        c.add value, before:=1
     Else
-        c.Add value, after:=index
+        c.add value, after:=index
     End If
     
 End Sub
@@ -268,7 +271,7 @@ End Function
 Public Sub push(value As Variant)
 
     checkType value, "List.push()"
-    c.Add value
+    c.add value
     
 End Sub
 
@@ -284,7 +287,7 @@ Public Sub append(ParamArray values())
         Dim element As Variant
         For Each element In varArray(LBound(varArray))
             checkType element, "List.append()"
-            c.Add element
+            c.add element
         Next
         
     Else
@@ -303,7 +306,7 @@ Public Sub append(ParamArray values())
         Dim i As Long
         For i = LBound(varArray) To UBound(varArray)
             checkType varArray(i), "List.append()"
-            c.Add varArray(i)
+            c.add varArray(i)
         Next
     End If
 
@@ -329,9 +332,9 @@ Public Sub unshift(value As Variant)
     checkType value, "List.unshift()"
     
     If c.count = 0 Then
-        c.Add value
+        c.add value
     Else
-        c.Add value, before:=1
+        c.add value, before:=1
     End If
     
 End Sub
