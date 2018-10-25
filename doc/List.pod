@@ -49,10 +49,10 @@ ciritical applications.
 The primary reason for using the C<Collection> object internally is, because it
 can create iterators (C<IUnknown>) and thus can be used in C<For Each> loops.
 Iterators can not be created natively in VBA so one can not reproduce this
-functionality using arrays. See C<List.newEnum()> 
+functionality using arrays. See C<List.newEnum()>
 
 
-=head1 METHODS 
+=head1 METHODS
 
 =head2 List_create
 
