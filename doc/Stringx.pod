@@ -113,19 +113,30 @@ Throws C<E_ARGUMENTOUTOFRANGE> if the repetition number is negative.
 
 =head2 trans
 
-	Stringx.trans("abcd", "a", "x", "cd", "yz") ' "xbyz"
+	Stringx.trans(text, searchTerm, replacement, searchTerm, replacement, ...)
+    Stringx.trans(text, searchTermList, replacementList)
+    Stringx.trans("abcd", "bc", "xyz") ' "axyzd"
 
-This function is a expansion of replace
-Parameter:
-          input:      String, contrains the string to edit
-          values():   ParamArray, contains the string/chars which have to be replaced
-Return:
-          trans:      String, contains the changed input string
-		  
-=head2 ReplaceStringWithLists
+Replaces parts of a string. Can do multiple replacements at once. The modified
+string is returned, the original string will not be altered. The function can be
+called in multiple ways:
 
-	ReplaceStringWithLists "abc", a, x ' "xbc"
-	
-Replaces the given variables
-		  
+=over
+
+=item *
+Alternating [searchTerm]s and [replacement]s. [searchTerm] can be a list,
+in that case all of the entries are replaced with the [replacement].
+
+=item *
+A [searchTermList] and a [replacementList]. The two lists have to be of
+the same length. Each entry in [searchTermList] is replaced with the entry at
+the same index in [replacementList].
+
+=back
+
+Throws C<E_INVALIDINPUT> if a [searchTerm] without a [replacement] is given.
+Throws C<E_INVALIDINPUT> if [searchTermList] and [replacementList] are no of the
+same length.
+Throws C<E_INVALIDINPUT> if "" is used as a [searchTerm].
+
 =cut
