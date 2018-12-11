@@ -133,7 +133,7 @@ L<https://github.com/HALTEC/VBA-commons-lib/issues>.
 
 =head1 AUTHORS
 
-Patrick Zimmermann  C<< <patrick.zimmermann@haltec.de> >>, originally based on
+Patrick Böker  C<< <patrick.boeker@haltec.de> >>, originally based on
 code by Mathieu Guindon that can be found on
 L<Github|https://github.com/retailcoder/VBTools>.
 
