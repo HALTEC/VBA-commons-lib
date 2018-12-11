@@ -1,5 +1,7 @@
 =pod
 
+=encoding utf8
+
 =head1 Variants
 
 A collection of C<Variant> handling functions

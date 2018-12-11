@@ -1,5 +1,7 @@
 =pod
 
+=encoding utf8
+
 =head1 List
 
 List - An optionally typed zero based list.

@@ -1,5 +1,7 @@
 =pod
 
+=encoding utf8
+
 =head1 Stringx
 
 A collection of C<String> handling functions

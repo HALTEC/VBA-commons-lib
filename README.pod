@@ -1,5 +1,7 @@
 =pod
 
+=encoding utf8
+
 =head1 VBA commons library
 
 Basic auxiliary classes and modules to complement VBA
