@@ -365,12 +365,23 @@ Public Function gist() As String
     Dim keyList As List: Set keyList = keys
     Dim sorted As List: Set sorted = keyList.sort()
     Dim key As Variant
+    Dim value As Variant
     Dim i As Long: i = 0
     For Each key In sorted
         If i > 0 Then
             result = result & ", "
         End If
-        result = result & Stringx.format("{0} => {1}", key, d(key))
+        
+        'If we don't have a type that nicely stringifies, just use the gist.
+        If IsObject(d(key)) Then
+            value = Variants.gist(d(key))
+        ElseIf Not IsNumeric(d(key)) And varType(d(key)) <> vbString Then
+            value = Variants.gist(d(key))
+        Else
+            value = d(key)
+        End If
+        
+        result = result & Stringx.format("{0} => {1}", key, value)
         i = i + 1
         If i >= 100 Then
             result = result & ", (...)"
