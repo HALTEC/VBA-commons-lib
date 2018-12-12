@@ -8,7 +8,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Public Function listToCollection(l As List) As Collection
-    Dim l2 As List: Set l2 = l.clone
+    Dim l2 As List: Set l2 = List_create(l)
     
     Dim i As Integer
     For i = 0 To l2.elems - 1
@@ -23,7 +23,7 @@ Public Function listToCollection(l As List) As Collection
 End Function
 
 Public Function mapToDictionary(m As Map) As Dictionary
-    Dim m2 As Map: Set m2 = m.clone
+    Dim m2 As Map: Set m2 = Map_create(m)
     
     Dim k As Variant
     For Each k In m2.keys
