@@ -198,9 +198,11 @@ Public Sub insert(ParamArray args())
         For Each key In varArray(LBound(varArray)).keys
             checkType key, varArray(LBound(varArray))(key), "insert()"
             If IsObject(varArray(LBound(varArray))(key)) Then
-                Set d(key) = varArray(LBound(varArray))(key)
+                ' The .item is necessary, because VBA throws a "argument is not optional" error otherwise. Not entirely sure
+                ' where VBA sees a function call that's missing parameters though...
+                Set d(key) = varArray(LBound(varArray)).item(key)
             Else
-                d(key) = varArray(LBound(varArray))(key)
+                d(key) = varArray(LBound(varArray)).item(key)
             End If
         Next key
     ElseIf LBound(varArray) = UBound(varArray) - 1 And varType(varArray(LBound(varArray))) = vbObject _
