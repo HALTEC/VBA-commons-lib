@@ -433,16 +433,16 @@ Public Function clone() As List
 End Function
 
 Public Function getRange(ByVal index As Long, ByVal elems As Long) As List
-
-    If index < 0 Then
-        index = c.count + index
-    End If
-    
-    checkIndex "List.getRange()", index, elems
-
     Dim result As List: Set result = createSimilarList
     
     If elems > 0 Then
+    
+        If index < 0 Then
+            index = c.count + index
+        End If
+        
+        checkIndex "List.getRange()", index, elems
+
         
         ' 1-based inclusive lastIndex
         Dim lastIndex As Long

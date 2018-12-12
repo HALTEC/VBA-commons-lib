@@ -496,6 +496,10 @@ Private Sub test_clone()
     l2(3).push 6
     equals l(3).elems, 3, "2 cloned list is a flat clone"
     
+    Set l = List_create
+    Set l2 = l.clone
+    equals l2.elems, 0, "cloning an empty list"
+    
     gStop
 End Sub
 
@@ -509,6 +513,11 @@ Private Sub test_getRange()
     equals l.getRange(0, 0), List_create
     equals l.getRange(2, 1), List_create(3)
     equals l.getRange(0, 3), List_create(1, 2, 3)
+    
+    equals l.getRange(0, 0), List_create, "Retrieving zero size range works"
+    
+    Set l = List_create
+    equals l.getRange(0, 0), List_create, "Retrieving zero size range from empty list works"
     
     gStop
 End Sub
