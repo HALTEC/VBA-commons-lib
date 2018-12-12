@@ -67,6 +67,10 @@ then choosing I<Export/Import File...>.
 The C<Arrays> module provides functions to deal with array data structures. For
 example creating empty arrays or sorting arrays.
 
+=head2 DevUtils
+
+Functions to help with development of this library itself.
+
 =head2 IO
 
 Simple file IO with good encoding support.
@@ -106,6 +110,13 @@ Excel specific functions. E.g. C<rowColToExcel()>, C<sheetExists()>,
 C<isWorkbookOpen()>
 
 =head1 INSTALLATION
+
+To import all the components of this library into an Excel file one can use the
+C<DevUtils.importModules()> function. To use it, just import the C<DevUtils>
+function manually into the VBA project and then call
+C<DevUtils.importModules "C:\path\to\this\repo\VBA-commons-lib">.
+This will also automatically add all the necessary references to external
+libraries.
 
 Some of these classes depend on others, but to some extent they can be used
 independently. So when one only wants a single class or module the easiest way

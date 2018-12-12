@@ -1,0 +1,31 @@
+=pod
+
+=encoding utf8
+
+=head1 DevUtils
+
+A collection of functions that help with development of this library
+
+=head1 FUNCTIONS
+
+=head2 importModules
+
+    importModules(repoPath, Optional workbook)
+
+    importModules "C:\path\to\this\repo\VBA-commons-lib"
+
+Imports all components of this library into the current workbook. Also adds
+all references to external libraries.
+An optional second argument allows importing the components into a workbook
+other than the current one.
+
+=head2 exportModules
+
+    exportModules(repoPath, Optional workbook)
+
+    exportModules "C:\path\to\this\repo\VBA-commons-lib"
+
+Exports all Classes, Modules and Forms into the given folder. Existing files
+will be overwritten. Components starting with "Test_" will be put into a
+F<tests/> subfolder. The repo folder and the F<tests/> subfolder will be created
+if they do not exist.
