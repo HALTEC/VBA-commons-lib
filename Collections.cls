@@ -8,32 +8,32 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Public Function listToCollection(l As List) As Collection
-    Dim c As Collection: Set c = l.clone.innerCollection
+    Dim l2 As List: Set l2 = l.clone
     
     Dim i As Integer
-    For i = 1 To c.count
-        If varType(c(i)) = vbObject And TypeName(c(i)) = "Dictionary" Then
-            Set c(i) = mapToDictionary(c(i))
-        ElseIf varType(c(i)) = vbObject And TypeName(c(i)) = "List" Then
-            Set c(i) = listToCollection(c(i))
+    For i = 0 To l2.elems - 1
+        If varType(l2(i)) = vbObject And TypeName(l2(i)) = "Map" Then
+            Set l2(i) = mapToDictionary(l2(i))
+        ElseIf varType(l2(i)) = vbObject And TypeName(l2(i)) = "List" Then
+            Set l2(i) = listToCollection(l2(i))
         End If
     Next
     
-    Set listToCollection = c
+    Set listToCollection = l2.innerCollection
 End Function
 
 Public Function mapToDictionary(m As Map) As Dictionary
-    Dim d As Dictionary: Set d = m.clone.innerDictionary
+    Dim m2 As Map: Set m2 = m.clone
     
     Dim k As Variant
-    For Each k In d.keys
-        If varType(d(k)) = vbObject And TypeName(d(k)) = "Dictionary" Then
-            Set d(k) = mapToDictionary(d(k))
-        ElseIf varType(d(k)) = vbObject And TypeName(d(k)) = "List" Then
-            Set d(k) = listToCollection(d(k))
+    For Each k In m2.keys
+        If varType(m2(k)) = vbObject And TypeName(m2(k)) = "Map" Then
+            Set m2(k) = mapToDictionary(m2(k))
+        ElseIf varType(m2(k)) = vbObject And TypeName(m2(k)) = "List" Then
+            Set m2(k) = listToCollection(m2(k))
         End If
     Next
     
-    Set mapToDictionary = d
+    Set mapToDictionary = m2.innerDictionary
 End Function
 

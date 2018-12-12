@@ -52,18 +52,18 @@ Private Sub test_mapAndListToCollections()
     equals TypeName(c(2)), "Dictionary", "list contained types work"
     
     c(2)("a") = 5
-    equals l(1)("a"), 1, "list contained Collections types types are cloned"
+    equals l(1)("a"), 1, "list contained Collections types are cloned"
     
     
     Dim m As Map: Set m = Map_create("a", List_create(1, 2))
     Dim d As Dictionary: Set d = Collections.mapToDictionary(m)
-    equals d.count, 2, "map element count matches"
+    equals d.count, 1, "map element count matches"
     equals TypeName(d("a")), "Collection", "map contained types work"
     
     ' Fails here:
-    d("a")(2) = 5
-    equals m("a")(1), 2, "map contained Collections types types are cloned"
-    
+    d("a").remove 2
+    d("a").add 5
+    equals m("a")(1), 2, "map contained Collections types are cloned"
     
     gStop
 End Sub

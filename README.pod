@@ -67,6 +67,11 @@ then choosing I<Export/Import File...>.
 The C<Arrays> module provides functions to deal with array data structures. For
 example creating empty arrays or sorting arrays.
 
+=head2 Collections
+
+Auxiliary functions to work with the collection classes of this library
+(L<List>, L<Map>, ...).
+
 =head2 DevUtils
 
 Functions to help with development of this library itself.

@@ -1,0 +1,25 @@
+=pod
+
+=encoding utf8
+
+=head1 Collections
+
+A collection of functions to work with the collection classes in this library
+
+=head1 FUNCTIONS
+
+=head2 listToCollection
+
+    listToCollection myList
+
+Turns a L<List> object into a C<Collection>. All contained L<List>s and L<Map>s
+are converted to C<Collection>s and C<Dictionary>s recursively. The given list
+is not modified.
+
+=head2 mapToDictionary
+
+    mapToDictionary myMap
+
+Turns a L<Map> object into a C<Dictionary>. All contained L<List>s and L<Map>s
+are converted to C<Collection>s and C<Dictionary>s recursively. The given map
+is not modified.
