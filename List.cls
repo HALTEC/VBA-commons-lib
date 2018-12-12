@@ -732,6 +732,10 @@ Attribute toArray.VB_Description = "Copies the elements of the List to a new arr
 
 End Function
 
+Public Function innerCollection() As Collection
+    Set innerCollection = c
+End Function
+
 Public Function toString() As String
 Attribute toString.VB_Description = "Returns a string that represents the current List object."
     toString = Stringx.format("{0}<{1}>", TypeName(Me), getPrettyInnerTypeName)

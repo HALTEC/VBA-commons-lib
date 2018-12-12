@@ -357,6 +357,10 @@ Public Function clone() As Map
     Set clone = m
 End Function
 
+Public Function innerDictionary() As Dictionary
+    Set innerDictionary = d
+End Function
+
 Public Function toString() As String
     toString = TypeName(Me) & getPrettyTypeName
 End Function
