@@ -285,7 +285,11 @@ Private Sub test_insert()
     d("a") = 5
     d(0) = "sdfd"
     m.insert d
-    equals m("a"), 5, "insert() correctly adds key/value pairs from dictionary"
+    equals m("a"), 5, "insert() correctly adds key/value pairs from Dictionary"
+    
+    Dim m2 As Map: Set m2 = Map_create("x123", 300, 321, "xeno")
+    m.insert d
+    equals m("x123"), 300, "insert() correctly adds key/value pairs from other Map"
     
     On Error Resume Next
     Dim m1 As Map: Set m1 = Map_create

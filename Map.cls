@@ -205,6 +205,16 @@ Public Sub insert(ParamArray args())
                 d(key) = varArray(LBound(varArray)).item(key)
             End If
         Next key
+    ElseIf LBound(varArray) = UBound(varArray) And varType(varArray(LBound(varArray))) = vbObject And TypeName(varArray(LBound(varArray))) = "Map" Then
+        Dim kv As KeyValuePair
+        For Each kv In varArray(LBound(varArray)).pairs
+            checkType kv.key, kv.value, "insert()"
+            If IsObject(kv.value) Then
+                Set d(kv.key) = kv.value
+            Else
+                d(kv.key) = kv.value
+            End If
+        Next
     ElseIf LBound(varArray) = UBound(varArray) - 1 And varType(varArray(LBound(varArray))) = vbObject _
             And TypeName(varArray(LBound(varArray))) = "List" And varType(varArray(UBound(varArray))) = vbObject _
             And TypeName(varArray(UBound(varArray))) = "List" Then

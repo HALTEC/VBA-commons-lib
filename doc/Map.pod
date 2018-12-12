@@ -171,8 +171,8 @@ Throws C<E_INVALIDINPUT> if there is an odd number of elements in the List/array
 
 =item *
 
-If only one argument is given which is a Scripting.Dictionary object, all its key/value pairs
-are simply copied as they are.
+If only one argument is given which is a Scripting.Dictionary or a C<Map>
+object, all its key/value pairs are simply copied as they are.
 
 =item *
 
