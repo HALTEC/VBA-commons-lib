@@ -118,7 +118,7 @@ C<isWorkbookOpen()>
 
 To import all the components of this library into an Excel file one can use the
 C<DevUtils.importModules()> function. To use it, just import the C<DevUtils>
-function manually into the VBA project and then call
+class manually into the VBA project and then call
 C<DevUtils.importModules "C:\path\to\this\repo\VBA-commons-lib">.
 This will also automatically add all the necessary references to external
 libraries.
