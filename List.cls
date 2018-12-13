@@ -22,7 +22,7 @@ Public Sub init(arr As Variant)
     Set c = New Collection
 
     If LBound(arr) = UBound(arr) Then
-        append arr(LBound(arr))
+        push arr(LBound(arr))
     Else
         append arr
     End If
@@ -42,7 +42,7 @@ Public Sub initLT(arr As Variant)
     Set c = New Collection
     
     If (LBound(arr) = UBound(arr)) Then
-        append arr(LBound(arr))
+        push arr(LBound(arr))
     Else
         append arr
     End If
@@ -282,12 +282,21 @@ Public Sub append(ParamArray values())
     varArray = values
     
     If LBound(varArray) = UBound(varArray) And varType(varArray(LBound(varArray))) = vbObject And TypeName(varArray(LBound(varArray))) = "List" Then
-        ' If we have a single list -> unpack it
+        ' If we have a single List -> unpack it
         
         Dim element As Variant
         For Each element In varArray(LBound(varArray))
             checkType element, "List.append()"
             c.add element
+        Next
+        
+    ElseIf LBound(varArray) = UBound(varArray) And varType(varArray(LBound(varArray))) = vbObject And TypeName(varArray(LBound(varArray))) = "Collection" Then
+        ' If we have a single Collection -> unpack it
+        
+        Dim element2 As Variant
+        For Each element2 In varArray(LBound(varArray))
+            checkType element2, "List.append()"
+            c.add element2
         Next
         
     Else
@@ -656,7 +665,7 @@ Attribute sort.VB_Description = "Sorts the elements in the entire List."
             Err.Raise E_ILLEGALSTATE, "List.sort()", "List elements are of different type and are thus uncomparable."
         ElseIf Err.number <> 0 Then
             On Error GoTo 0
-            Err.Raise Err.number, Err.source, Err.Description, Err.HelpFile, Err.HelpContext
+            Err.Raise Err.number, Err.source, Err.description, Err.HelpFile, Err.HelpContext
         End If
         
         newList.append a

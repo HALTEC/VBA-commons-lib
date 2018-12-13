@@ -60,7 +60,7 @@ Private Sub test_create()
     
     Dim l3 As List: Set l3 = List_create("a")
     Dim l4 As List: Set l4 = List_create(l3)
-    equals l4(0), "a", "Filling untyped list with list on initialize works"
+    equals l4(0)(0), "a", "Filling untyped list with list on initialize works"
 
     gStop
 End Sub
@@ -86,7 +86,7 @@ Private Sub test_createT()
     
     On Error Resume Next
     l3.push "Hey"
-    checkError E_TYPEMISMATCH, "Typed list fails on inserting wrong type"
+    CheckError E_TYPEMISMATCH, "Typed list fails on inserting wrong type"
     On Error GoTo 0
 
     gStop
@@ -116,7 +116,7 @@ Private Sub test_createLT()
     
     On Error Resume Next
     l3.push "Hey"
-    checkError E_TYPEMISMATCH, "Lazy typed list fails on inserting wrong type"
+    CheckError E_TYPEMISMATCH, "Lazy typed list fails on inserting wrong type"
     On Error GoTo 0
 
     gStop
@@ -136,12 +136,12 @@ Private Sub test_item()
     
     On Error Resume Next
     dummy = l(3)
-    checkError E_INDEXOUTOFRANGE, "Accessing index >= count fails"
+    CheckError E_INDEXOUTOFRANGE, "Accessing index >= count fails"
     On Error GoTo 0
 
     On Error Resume Next
     dummy = l(-4)
-    checkError E_INDEXOUTOFRANGE, "Accessing index < -count fails"
+    CheckError E_INDEXOUTOFRANGE, "Accessing index < -count fails"
     On Error GoTo 0
     
     On Error Resume Next
@@ -278,7 +278,7 @@ Private Sub test_pushPop()
     Set l = List_create
     On Error Resume Next
     l.pop
-    checkError E_ILLEGALSTATE, "Calling pop on an empty list throws E_ILLEGALSTATE"
+    CheckError E_ILLEGALSTATE, "Calling pop on an empty list throws E_ILLEGALSTATE"
     On Error GoTo 0
     
     gStop
@@ -359,7 +359,7 @@ Private Sub test_shiftUnshift()
     Set l = List_create
     On Error Resume Next
     l.shift
-    checkError E_ILLEGALSTATE, "Calling shift on an empty list throws E_ILLEGALSTATE"
+    CheckError E_ILLEGALSTATE, "Calling shift on an empty list throws E_ILLEGALSTATE"
     On Error GoTo 0
     
     gStop
@@ -449,7 +449,7 @@ Private Sub test_splice()
     
     On Error Resume Next
     l.splice 1, 3
-    checkError E_INDEXOUTOFRANGE, "Splicing beyond the end fails"
+    CheckError E_INDEXOUTOFRANGE, "Splicing beyond the end fails"
     On Error GoTo 0
     
     
@@ -563,12 +563,12 @@ Private Sub test_firstLast()
     
     On Error Resume Next
     l.first
-    checkError E_ILLEGALSTATE, "first throws when list is empty"
+    CheckError E_ILLEGALSTATE, "first throws when list is empty"
     On Error GoTo 0
     
     On Error Resume Next
     l.last
-    checkError E_ILLEGALSTATE, "last throws when list is empty"
+    CheckError E_ILLEGALSTATE, "last throws when list is empty"
     On Error GoTo 0
 
     gStop
@@ -650,7 +650,7 @@ Private Sub test_sort()
     
     On Error Resume Next
     List_create(Stringx).sort
-    checkError E_ILLEGALSTATE, "Sorting unsortable things fails"
+    CheckError E_ILLEGALSTATE, "Sorting unsortable things fails"
     On Error GoTo 0
     
     gStop

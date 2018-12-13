@@ -61,7 +61,6 @@ functionality using arrays. See C<List.newEnum()>
     Dim l As List: Set l = List_create("apple", 7)
 
 Creates a new untyped list object. The passed things are added to the list.
-If a single listy thing is passed its elements are added instead. See L<append>.
 
 
 =head2 List_createT
@@ -78,7 +77,6 @@ list can hold.
 
 Creates a new B<L>azy B<T>yped list object. The type of the list is determined
 by the type of the first element added. The passed things are added to the list.
-If a single listy thing is passed its elements are added instead. See L<append>.
 
 It is possible to create an empty lazy typed list.
 Such an empty lazy typed list is not the same as an untyped list. As soon as an
