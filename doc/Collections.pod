@@ -8,18 +8,34 @@ A collection of functions to work with the collection classes in this library
 
 =head1 FUNCTIONS
 
-=head2 listToCollection
+=head2 deepListToCollection
 
-    listToCollection myList
+    Set myCollection = deepListToCollection(myList)
 
 Turns a L<List> object into a C<Collection>. All contained L<List>s and L<Map>s
 are converted to C<Collection>s and C<Dictionary>s recursively. The given list
 is not modified.
 
-=head2 mapToDictionary
+=head2 deepMapToDictionary
 
-    mapToDictionary myMap
+    Set myDictionary = deepMapToDictionary(myMap)
 
 Turns a L<Map> object into a C<Dictionary>. All contained L<List>s and L<Map>s
 are converted to C<Collection>s and C<Dictionary>s recursively. The given map
 is not modified.
+
+=head2 deepCollectionToList
+
+  Set myList = deepCollectionToList(myCollection)
+
+Turns a C<Collection> object into a L<List>. All contained C<Collection>s and
+C<Dictionary>s are converted to L<List>s and L<Map>s recursively. The given
+collection is not modified.
+
+=head2 deepDictionaryToMap
+
+  Set myMap = deepDictionaryToMap(myDictionary)
+
+Turns a C<Dictionary> object into a L<Map>. All contained C<Collection>s and
+C<Dictionary>s are converted to L<List>s and L<Map>s recursively. The given
+dictionary is not modified.
