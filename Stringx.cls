@@ -534,7 +534,7 @@ End Function
 Public Function split(text As String, Optional separator As String = " ") As List
     If Len(text) = 0 Then
         Set split = List_createT("String")
-        split.push ("")
+        split.push ""
     ElseIf separator = "" Then
         Set split = toChars(text)
     Else
