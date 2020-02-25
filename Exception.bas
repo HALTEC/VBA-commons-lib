@@ -47,3 +47,87 @@ End Function
 Public Function getErrGroup(errNo As Long) As Long
     getErrGroup = errNo And errGroupMask
 End Function
+
+Public Function errNoToString(errNo As Integer) As String
+    Select Case errNo
+    ' Microsoft reserved
+    Case 9: errNoToString = "E_INDEXOUTOFRANGE"
+    
+    'Common errors
+    Case 513: errNoToString = "E_ARGUMENTOUTOFRANGE"
+    Case 514: errNoToString = "E_ILLEGALSTATE"
+    Case 515: errNoToString = "E_INTERNALERROR"
+    Case 516: errNoToString = "E_TYPEMISMATCH"
+    Case 517: errNoToString = "E_INVALIDINPUT"
+    
+    ' CalculateRequestParser errors
+    Case 640: errNoToString = "E_DUPLICATEINPUT"
+    
+    ' XlUtils errors
+    Case 768: errNoToString = "E_WORKBOOKNOTOPEN"
+    
+    ' IO errors
+    Case 896: errNoToString = "E_FILEEXISTS"
+    Case 897: errNoToString = "E_FILENOTFOUND"
+    Case 898: errNoToString = "E_UNKNOWNENCODING"
+    
+    Case Else: errNoToString = ""
+    End Select
+End Function
+
+Public Sub rethrow()
+    Err.Raise Err.number, Err.source, Err.description, Err.HelpFile, Err.HelpContext
+End Sub
+
+Public Function exceptionToString(Optional er As ErrObject) As String
+    If er is Nothing Then
+        Set er = Err
+    End If
+    
+    exceptionToString = "EX "
+    exceptionToString = exceptionToString & Err.number
+    
+    If errNoToString(Err.number) <> "" Then
+        exceptionToString = exceptionToString & " " & errNoToString(Err.number)
+    End If
+    
+    exceptionToString = exceptionToString & ": "
+    
+    If Err.description <> "" Then
+        exceptionToString = exceptionToString & Err.description & vbCrLf
+    Else
+        exceptionToString = exceptionToString & "And exception occurred." & vbCrLf
+    End If
+    
+    If Err.source <> "" Then
+        exceptionToString = exceptionToString & "Source: " & Err.source & vbCrLf
+    End If
+    
+    If Err.HelpFile <> "" Then
+        exceptionToString = exceptionToString & "HelpFile: " & Err.HelpFile & vbCrLf
+    End If
+    
+    If Err.HelpContext > 0 Then
+        exceptionToString = exceptionToString & "HelpContext: " & Err.HelpContext & vbCrLf
+    End If
+End Function
+
+Public Sub printException(Optional er As ErrObject)
+    If er is Nothing Then
+        Set er = Err
+    End If
+    
+    Debug.Print exceptionToString(er)
+End Sub
+
+Public Sub msgBoxException(Optional er As ErrObject)
+    If er Is Nothing Then
+        Set er = Err
+    End If
+    
+    If er.HelpFile <> "" Then
+        MsgBox exceptionToString(er), vbMsgBoxHelpButton, Title:="Exception", HelpFile:=er.HelpFile, Context:=er.HelpContext
+    Else
+        MsgBox exceptionToString(er), Title:="Exception"
+    End If
+End Sub
