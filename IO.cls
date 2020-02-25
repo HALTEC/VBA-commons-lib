@@ -120,7 +120,7 @@ Public Function slurp(filename As String, _
     
     Dim fileNo As Integer: fileNo = FreeFile
     
-    Open filename For Binary Access Read Lock Write As #fileNo
+    Open filename For Binary Access Read Shared As #fileNo
     
     If LOF(fileNo) = 0 Then
         If bin Then
@@ -167,7 +167,7 @@ Public Function spurt(filename As String, content As Variant, _
         End If
     End If
     
-    Open filename For Binary Access Write Lock Read Write As #fileNo
+    Open filename For Binary Access Write Shared As #fileNo
     
     Dim buffer() As Byte
     If varType(content) = (vbByte Or vbArray) Then
