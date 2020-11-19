@@ -85,24 +85,16 @@ Takes a row and a column number and turns it into an Excel compatible "A1" cell
 address. Row and column numbers are 1-based.
 Throws C<E_INDEXOUTOFRANGE> if row or column is <=0.
 
-=head2 validateNumericTextBox_KeyPress, validateNumericTextBox_Exit
+=head2 numToLetters
 
-    Private Sub txt_myTextBox_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
-        XlUtils.validateNumericTextBox_KeyPress Me.txt_myTextBox, KeyAscii
-    End Sub
-    Private Sub txt_myTextBox_Exit(ByVal Cancel As MSForms.ReturnBoolean)
-        XlUtils.validateNumericTextBox_Exit Me.txt_myTextBox, Cancel
-    End Sub
+    XlUtils.numToLetters 26  ' "Z"
 
-Two functions that help in turning a C<TextBox> into a numeric input field.
-When used all input except 0-9 and comma is ignored. When exitting the field the
-input is validated whether it forms a valid number and the field is turned red
-and exitting is probibited when the number is invalid. In addition when typing
-a comma it is automatically turned into a dot.
+Converts a decimal integer to letters (base 26).
 
-B<Caveat>: The functionality relies on the C<Exit> event. Under many conditions
-this event does not fire. E.g. when a C<TextBox> is inside a C<Frame> and one
-selects an element outside of the frame. Then the C<Exit> event of the C<Frame>
-fires, not the one of the C<TextBox>.
+=head2 lettersToNum
+
+    XlUtils.lettersToNum "AA"  ' 27
+
+Converts a letter combination (a base 26 number) to a decimal integer.
 
 =cut

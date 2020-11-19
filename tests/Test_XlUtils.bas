@@ -7,6 +7,7 @@ Private Sub test_all()
     
     test_getOpenWorkbook
     test_rowColToExcel
+    test_lettersToNum
     
     gStop
 End Sub
@@ -50,6 +51,17 @@ Private Sub test_rowColToExcel()
     XlUtils.rowColToExcel 1, -1
     checkError E_INDEXOUTOFRANGE
     On Error GoTo 0
+    
+    gStop
+End Sub
+
+Private Sub test_lettersToNum()
+    gStart "lettersToNum"
+    
+    equals XlUtils.lettersToNum("A"), 1
+    equals XlUtils.lettersToNum("B"), 2
+    equals XlUtils.lettersToNum("AA"), 27
+    equals XlUtils.lettersToNum("IV"), 256
     
     gStop
 End Sub

@@ -115,11 +115,15 @@ End Function
 'End Sub
 
 Public Function rowColToExcel(ByVal row As Integer, ByVal column As Integer) As String
+    rowColToExcel = numToLetters(column) & row
+End Function
+
+Public Function numToLetters(ByVal num As Integer) As String
     Static alphabet As String
     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     
-    If row <= 0 Or column <= 0 Then
-        Err.Raise E_INDEXOUTOFRANGE, "rowColToExcel()", "Row and column must both be greater than 0."
+    If num <= 0 Then
+        Err.Raise E_INDEXOUTOFRANGE, "numToLetters()", "Column must be greater than 0."
     End If
     
     Dim result As String
@@ -129,43 +133,34 @@ Public Function rowColToExcel(ByVal row As Integer, ByVal column As Integer) As 
     
     ' We have to work with 0-based numbers (0=A, 25=Z), otherwise the modulo operator won't work.
     ' (26 / 26 = 1 Remainder 0 and not 0 Remainder 26 which would lead to A0 and not Z)
-    column = column - 1
+    num = num - 1
     
-    While column >= 0
-        remainder = column Mod Len(alphabet)
+    While num >= 0
+        remainder = num Mod Len(alphabet)
         ' + 1 because Mid takes 1-based indexes
         result = Mid(alphabet, remainder + 1, 1) & result
         
         ' - 1, to get back to a 0-based system.
         ' 1 Remainder 0 should result in A(=0).
         ' 0 Remainder 0 should trigger loop end.
-        column = column \ Len(alphabet) - 1
+        num = num \ Len(alphabet) - 1
     Wend
     
-    rowColToExcel = result & row
+    numToLetters = result
 End Function
 
-Public Sub validateNumericTextBox_KeyPress(ByRef tb As MSForms.textbox, ByRef KeyAscii As MSForms.ReturnInteger)
-    Select Case KeyAscii
-        Case 48 To 57, 46: ' 0 - 9, dot
-            ' allow
-            tb.BackColor = &H80000005
-        Case 44: ' comma
-            ' change comma to dot
-            tb.BackColor = &H80000005
-            KeyAscii = 46
-        Case Else
-            ' reject everything else
-            KeyAscii = 0
-    End Select
-End Sub
+Public Function lettersToNum(letters As String) As Integer
+    Static alphabet As String
+    alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    
+    Dim result As Integer: result = 0
 
-Public Sub validateNumericTextBox_Exit(ByRef tb As MSForms.textbox, ByRef Cancel As MSForms.ReturnBoolean)
-    If Not IsNumeric(tb.text) Then
-        tb.BackColor = &HFF&
-        Cancel = True
-    Else
-        tb.BackColor = &H80000005
-    End If
-End Sub
+    Dim parts As List: Set parts = Stringx.toChars(letters)
+    Dim part As Variant
+    For Each part In parts
+        Dim value As Integer: value = InStr(1, alphabet, part, vbTextCompare)
+        result = result * Len(alphabet) + value
+    Next
+    lettersToNum = result
+End Function
 
