@@ -55,6 +55,33 @@ Public Function Map_createLT(ParamArray values() As Variant) As Map
     Set Map_createLT = m
 End Function
 
+Public Function Setx_create(ParamArray values() As Variant) As Setx
+' Create an untyped set
+    Dim arr As Variant: arr = values
+    
+    Dim s As New Setx
+    s.init arr
+    
+    Set Setx_create = s
+End Function
+
+Public Function Setx_createT(valueType As String) As Setx
+' Crate a typed set
+    Dim s As New Setx
+    s.initT valueType
+    
+    Set Setx_createT = s
+End Function
+
+Public Function Setx_createLT(ParamArray values() As Variant) As Setx
+' Create a lazily typed set
+    Dim arr As Variant: arr = values
+    Dim s As New Setx
+    s.initLT arr
+    
+    Set Setx_createLT = s
+End Function
+
 Public Function TestResult_create(pass As Boolean, number As Integer, testType As String, errorInfo As String, message As String) As TestResult
     Dim t As New TestResult
     t.init pass, number, testType, errorInfo, message

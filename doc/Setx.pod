@@ -1,0 +1,216 @@
+=pod
+
+=encoding utf8
+
+=head1 List
+
+Setx - .
+
+=head1 SYNOPSIS
+
+    Dim l As List: Set l = List_create("apple", 5, 6, "banana")
+    l.push "avocado"
+    Debug.print l(3) ' banana
+
+
+=head1 DESCRIPTION
+
+This Set class is based on the dictionary-object, which is also the basis of the Map class.
+
+
+
+This class uses a C<Collection> internally to keep the elements. Collections are
+untyped (they can only keep C<Variant> values) and generally considered to be
+rather slow. THus this class mey not be the best solution in performance
+ciritical applications.
+
+The primary reason for using the C<Collection> object internally is, because it
+can create iterators (C<IUnknown>) and thus can be used in C<For Each> loops.
+Iterators can not be created natively in VBA so one can not reproduce this
+functionality using arrays. See C<List.newEnum()>
+
+
+=head1 METHODS
+
+=head2 List_create
+
+    Dim l As List: Set l = List_create("apple", 7)
+
+Creates a new untyped list object. The passed things are added to the list.
+
+
+=head2 List_createT
+
+    Dim l As List: Set l = List_createT("String")
+
+Creates a new B<T>yped list object. The given string determines the type the
+list can hold.
+
+
+=head2 List_createLT
+
+    Dim l As List: Set l = List_createLT("apple", "banana")
+
+Creates a new B<L>azy B<T>yped list object. The type of the list is determined
+by the type of the first element added. The passed things are added to the list.
+
+It is possible to create an empty lazy typed list.
+Such an empty lazy typed list is not the same as an untyped list. As soon as an
+element is added the type of that thing is fixed as the list type.
+
+Once the type is set such a list is identical to a list created using
+L<List_createT>.
+
+
+=head2 item
+
+    Debug.print l.item(2)
+
+Returns the specified element. Negative indexes count from the back. -1 is the
+last element.
+Throws E_INDEXOUTOFRANGE if the index is out of bounds.
+
+
+=head2 ()
+
+    Debug.print l(2)
+
+Same as L<item>.
+
+
+=head2 elems
+
+I<ro Property>
+
+Returns the number of elements of the set.
+
+
+
+
+=head2 pick
+
+
+
+=head2 pop
+
+Removes and returns an element of an unempty set randomly.
+
+
+=head2 values
+
+Returns a list of all the elements of the set.
+
+
+=head2 union
+
+Given two sets, returns all elements that are in either of the two sets.
+
+
+
+=head2 intersection
+
+Given two sets, only returns elements that are in both sets.
+
+
+=head2 difference
+
+Given two sets, returns all elements that are in the set on which the method is called that aren't in the set which is passed as an argument.
+
+
+=head2 symmetric_difference
+
+Given two sets, returns all elements that are in either of the two sets but not both.
+
+
+
+=head2 is_disjoint
+
+Returns whether or not two sets are disjointed.
+
+
+
+=head2 add
+
+Adds a specified element to the set
+
+If the element is already an element of the set, it isn't added again. 
+
+
+
+=head2 append
+
+    l.append "one", "two", "three"
+    l.append otherList
+
+Adds multiple elements to the end of the list. If a single listy thing is passed
+its elements are added instead.
+
+
+
+=head2 remove
+
+Removes specified element from the set. 
+
+
+
+=head2 removeAll
+
+Removes all elements from the set.
+
+=head2 exists
+
+Determines whether an element is in the set.
+
+Uses C<Variants.equals> to determine element equality. This means that objects
+are compared using C<Is>.
+
+
+=head2 equals
+
+Tests whether this set equals another set. 
+
+Deems two empty sets as equal. 
+=over
+
+=item *
+
+The two lists have the same type constraint.
+
+=item *
+
+Each element is C<Variants.equals>. This means that objects are compared
+using C<Is>.
+
+=back
+
+
+
+=head2 discard
+
+Removes specified element from the set without throwing an error if the element isn't in the set.
+
+
+
+
+=head1 BUGS AND LIMITATIONS
+
+=head2 Interfaces
+
+The List object does not work with Interface hierarchies in typed mode. If you
+create a List of a base type and try to push() subtypes it will fail with a type
+mismatch. Use an untyped list in such cases.
+
+This is a result of VBA not allowing dynamically checking a type. The C<TypeOf
+obj Is Class> construct does not allow comparing against Strings. Thus it is
+impossible to use TypeOf dynamically. C<TypeName(obj)> on the other hand only
+returns the direct class name of the given object and does not provide
+information about implemented Interfaces.
+
+
+=head2 For Each "Method not supported"
+
+If C<For Each> loops return "Method not supported", then a required VB attribute
+of the method C<List.newEnum()> is missing. Look at the source code of that
+function for repair instructions.
+
+=cut

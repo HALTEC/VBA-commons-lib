@@ -30,6 +30,21 @@ Public Function equals(value As Variant, other As Variant) As Boolean
         equals = False
     ElseIf IsObject(value) Then
         equals = value Is other
+    ElseIf isArray(value) <> isArray(other) Then
+        equals = False
+    ElseIf isArray(value) Then
+        If LBound(value) = LBound(other) And UBound(value) = UBound(other) Then
+            Dim i As Integer
+            equals = True
+            For i = LBound(value) To UBound(value)
+                If Not Variants.equals(value(i), other(i)) Then
+                    equals = False
+                    Exit For
+                End If
+            Next
+        Else
+            equals = False
+        End If
     Else
         equals = value = other
     End If
