@@ -58,8 +58,9 @@ Private Sub test_create()
     checkNoError "Creating a mixed type list"
     On Error GoTo 0
     
-    Dim l3 As List: Set l3 = List_create("a")
+    Dim l3 As List: Set l3 = List_create("a", "b", "c")
     Dim l4 As List: Set l4 = List_create(l3)
+    equals l4.elems, 1, "Adding a list doesn't unpack"
     equals l4(0)(0), "a", "Filling untyped list with list on initialize works"
 
     gStop
