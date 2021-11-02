@@ -41,6 +41,10 @@ Private Declare Function GetTempPathW Lib "kernel32.dll" ( _
     ByVal nBufferLength As Long, _
     ByVal lpBuffer As Long) As Long
 
+Private Declare Function WNetGetUniversalNameA Lib "mpr.dll" (ByVal lpLocalPath As String, ByVal dwInfoLevel As Long, lpBuffer As Any, lpBufferSize As Long) As Long
+
+Private Declare Sub RtlMoveMemory Lib "kernel32.dll" (Destination As Any, Source As Any, ByVal Length As Long)
+
 
 Public Function pathIsRelative(ByVal path As String) As Boolean
     pathIsRelative = PathIsRelativeW(StrPtr(path))
@@ -538,7 +542,35 @@ Private Function encToCPNo(enc As String) As Long
             encToCPNo = 65000
         Case "utf-8"
             encToCPNo = 65001
-        Case Default
+        Case default
             Err.Raise E_UNKNOWNENCODING
     End Select
+End Function
+
+Public Function pathToUNCPath(path As String) As String
+    ' WNetGetUniversalNameA returns struct containing a pointer (4 bytes) to
+    ' a string, directly followed by the string itself. The actual position of the
+    ' string is an implementation detail one should not rely on. I found no way to
+    ' sanely follow the pointer though. So we cheat and *do* rely on the memory layout
+    ' by just skipping the first four bytes and access the string directly.
+    Dim buf1(1 To 4096) As Byte
+    ' 4 bytes shorter. We'll copy buf1 to buf2 skipping the first four bytes
+    Dim buf2(1 To 4092) As Byte
+    
+    Dim success As Long: success = WNetGetUniversalNameA(path, 1, buf1(1), 4096)
+    
+    If success = 0 Then
+        ' copy buf1 to buf2 skipping the first four bytes (the pointer)
+        RtlMoveMemory buf2(1), buf1(5), 4092
+        ' Convert to a normal unicode string
+        Dim uncPath As String: uncPath = StrConv(buf2, vbUnicode)
+        ' Trim to actual string size.
+        uncPath = Left$(uncPath, InStr(uncPath, vbNullChar) - 1)
+        If uncPath = "" Then
+            uncPath = path
+        End If
+        pathToUNCPath = uncPath
+    Else
+        pathToUNCPath = path
+    End If
 End Function

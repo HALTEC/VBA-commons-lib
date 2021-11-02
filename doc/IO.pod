@@ -117,4 +117,12 @@ L<the Windows C<GetTempPathW> function|https://msdn.microsoft.com/en-us/library/
 Throws C<E_INTERNALERROR> if the API function itself has a problem. This
 shouldn't happen under normal conditions.
 
+=head2 pathToUNCPath
+
+    pathToUNCPath(path As String) As String
+
+Converts an absolute path with a drive letter to a UNC path.
+
+If the path is relative it is returned untouched. If it is on a non-network drive the path is returned untouched.
+
 =cut
