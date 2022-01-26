@@ -69,7 +69,7 @@ Returns the number of elements in the set.
 
 =head2 add
 
-Adds a specified element to the set
+Adds a specified element to the set.
 
 If the element is already an element of the set, it isn't added again.
 

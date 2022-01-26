@@ -155,7 +155,7 @@ Public Sub append(ParamArray values())
         
         Dim element2 As Variant
         For Each element2 In varArray(LBound(varArray))
-            checkType value, "Setx.add()"
+            checkType element2, "Setx.add()"
             add element2
         Next
         
@@ -164,7 +164,7 @@ Public Sub append(ParamArray values())
         
         Dim element3 As Variant
         For Each element3 In varArray(LBound(varArray))
-            checkType value, "Setx.add()"
+            checkType element3, "Setx.add()"
             add element3
         Next
         
@@ -183,7 +183,7 @@ Public Sub append(ParamArray values())
         
         Dim i As Long
         For i = LBound(varArray) To UBound(varArray)
-            checkType value, "Setx.add()"
+            checkType varArray(i), "Setx.add()"
             add varArray(i)
         Next
     End If
@@ -405,7 +405,7 @@ Public Function toString() As String
 End Function
 
 Public Function gist() As String
-    gist = "[" & Stringx.join(Me, ", ") & "]<" & getPrettyInnerTypeName & ">"
+    gist = "[" & Stringx.join(Me.values, ", ") & "]<" & getPrettyInnerTypeName & ">"
 End Function
 
 
