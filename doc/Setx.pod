@@ -2,22 +2,20 @@
 
 =encoding utf8
 
-=head1 List
+=head1 Setx
 
-Setx - .
+A set type
 
 =head1 SYNOPSIS
 
-    Dim l As List: Set l = List_create("apple", 5, 6, "banana")
-    l.push "avocado"
-    Debug.print l(3) ' banana
+    Dim s As Setx: Set s = Setx_create("apple", 5, 6, "banana")
+    s.push "avocado"
+    Debug.print s(3) ' banana
 
 
 =head1 DESCRIPTION
 
-This Set class is based on the dictionary-object, which is also the basis of the Map class.
-
-
+This Setx class is based on the dictionary-object, which is also the basis of the Map class.
 
 This class uses a C<Collection> internally to keep the elements. Collections are
 untyped (they can only keep C<Variant> values) and generally considered to be
@@ -32,79 +30,101 @@ functionality using arrays. See C<List.newEnum()>
 
 =head1 METHODS
 
-=head2 List_create
+=head2 Setx_create
 
-    Dim l As List: Set l = List_create("apple", 7)
+    Dim s As Setx: Set s = Setx_create("apple", 7)
 
-Creates a new untyped list object. The passed things are added to the list.
+Creates a new untyped set object. The passed things are added to the list.
 
 
 =head2 List_createT
 
-    Dim l As List: Set l = List_createT("String")
+    Dim s As Setx: Set s = Setx_createT("String")
 
-Creates a new B<T>yped list object. The given string determines the type the
+Creates a new B<T>yped set object. The given string determines the type the
 list can hold.
 
 
-=head2 List_createLT
+=head2 Setx_createLT
 
-    Dim l As List: Set l = List_createLT("apple", "banana")
+    Dim s As Setx: Set s = Setx_createLT("apple", "banana")
 
-Creates a new B<L>azy B<T>yped list object. The type of the list is determined
-by the type of the first element added. The passed things are added to the list.
+Creates a new B<L>azy B<T>yped set object. The type of the set is determined
+by the type of the first element added. The passed things are added to the set.
 
-It is possible to create an empty lazy typed list.
-Such an empty lazy typed list is not the same as an untyped list. As soon as an
-element is added the type of that thing is fixed as the list type.
+It is possible to create an empty lazy typed set.
+Such an empty lazy typed set is not the same as an untyped set. As soon as an
+element is added the type of that thing is fixed as the set type.
 
-Once the type is set such a list is identical to a list created using
+Once the type is set such a set is identical to a set created using
 L<List_createT>.
-
-
-=head2 item
-
-    Debug.print l.item(2)
-
-Returns the specified element. Negative indexes count from the back. -1 is the
-last element.
-Throws E_INDEXOUTOFRANGE if the index is out of bounds.
-
-
-=head2 ()
-
-    Debug.print l(2)
-
-Same as L<item>.
 
 
 =head2 elems
 
 I<ro Property>
 
-Returns the number of elements of the set.
+Returns the number of elements in the set.
 
 
+=head2 add
+
+Adds a specified element to the set
+
+If the element is already an element of the set, it isn't added again.
+
+
+=head2 append
+
+    s.append "one", "two", "three"
+    s.append someList
+    s.append someSetx
+
+Adds multiple elements to the set. If a single listy thing is passed
+its elements are added instead.
+
+
+=head2 remove
+
+Removes specified element from the set.
+
+
+=head2 discard
+
+Removes specified element from the set without throwing an error if the element isn't in the set.
+
+
+=head2 removeAll
+
+Empties the set.
 
 
 =head2 pick
 
+Returns a random element from the set, the element is I<not> removed.
 
 
 =head2 pop
 
-Removes and returns an element of an unempty set randomly.
+Removes and returns an element of a non-empty set randomly.
+
+
+=head2 exists
+
+Determines whether an element is in the set.
+
+Uses C<Variants.equals> to determine element equality. This means that objects
+are compared using C<Is>.
 
 
 =head2 values
 
-Returns a list of all the elements of the set.
+Returns a list of all the elements in the set.
 
 
 =head2 union
 
 Given two sets, returns all elements that are in either of the two sets.
-
 
 
 =head2 intersection
@@ -122,47 +142,39 @@ Given two sets, returns all elements that are in the set on which the method is 
 Given two sets, returns all elements that are in either of the two sets but not both.
 
 
-
 =head2 is_disjoint
 
 Returns whether or not two sets are disjointed.
 
 
+=head2 is_subset
 
-=head2 add
-
-Adds a specified element to the set
-
-If the element is already an element of the set, it isn't added again. 
+Checks whether our set is a subset of other.
 
 
+=head2 is_superset
 
-=head2 append
-
-    l.append "one", "two", "three"
-    l.append otherList
-
-Adds multiple elements to the end of the list. If a single listy thing is passed
-its elements are added instead.
+Checks whether our set is a superset of other.
 
 
+=head2 update_union
 
-=head2 remove
-
-Removes specified element from the set. 
-
+Updates an existing set to the union of itself and other.
 
 
-=head2 removeAll
+=head2 update_intersection
 
-Removes all elements from the set.
+Modifies an existing set, retaining the intersection of itself and other.
 
-=head2 exists
 
-Determines whether an element is in the set.
+=head2 update_difference
 
-Uses C<Variants.equals> to determine element equality. This means that objects
-are compared using C<Is>.
+Modifies an existing set, making it retain elements that are in Me and not in other.
+
+
+=head2 update_symmetric_difference
+
+Modifies an existing set, making it contain elements found only in Me or in other but not in both.
 
 
 =head2 equals
@@ -184,21 +196,23 @@ using C<Is>.
 =back
 
 
+=head2 toString
 
-=head2 discard
-
-Removes specified element from the set without throwing an error if the element isn't in the set.
+Returns a String describing this object. The elements are not included.
 
 
+=head2 gist
+
+Prints a summary of this object. The elements are included.
 
 
 =head1 BUGS AND LIMITATIONS
 
 =head2 Interfaces
 
-The List object does not work with Interface hierarchies in typed mode. If you
-create a List of a base type and try to push() subtypes it will fail with a type
-mismatch. Use an untyped list in such cases.
+The Setx object does not work with Interface hierarchies in typed mode. If you
+create a Setx of a base type and try to push() subtypes it will fail with a type
+mismatch. Use an untyped Setx in such cases.
 
 This is a result of VBA not allowing dynamically checking a type. The C<TypeOf
 obj Is Class> construct does not allow comparing against Strings. Thus it is
@@ -210,7 +224,7 @@ information about implemented Interfaces.
 =head2 For Each "Method not supported"
 
 If C<For Each> loops return "Method not supported", then a required VB attribute
-of the method C<List.newEnum()> is missing. Look at the source code of that
+of the method C<Setx.newEnum()> is missing. Look at the source code of that
 function for repair instructions.
 
 =cut

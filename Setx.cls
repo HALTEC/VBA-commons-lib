@@ -330,7 +330,6 @@ Public Function is_disjoint(other As Setx) As Boolean
 End Function
 
 Public Function is_subset(other As Setx) As Boolean
-' Checks whether our set is a subset of other
     is_subset = True
     Dim element As Variant
     For Each element In Me
@@ -343,7 +342,6 @@ Public Function is_subset(other As Setx) As Boolean
 End Function
 
 Public Function is_superset(other As Setx) As Boolean
-' Checks whether our set is a superset of other
     is_superset = True
     Dim element As Variant
     For Each element In other
@@ -359,14 +357,12 @@ End Function
 
 
 Public Function update_union(other As Setx)
-' Updates an existing set to the union of itself and other
     Dim resulting_set As Setx: Set resulting_set = union(other)
     Set d = New Dictionary
     append resulting_set
 End Function
 
 Public Function update_intersection(other As Setx)
-' Modifies an existing set, retaining the intersection of itself and other
     Dim resulting_set As Setx: Set resulting_set = intersection(other)
     Set d = New Dictionary
     append resulting_set
@@ -374,7 +370,6 @@ Public Function update_intersection(other As Setx)
 End Function
 
 Public Function update_difference(other As Setx)
-'Modifies an existing set, making it retain elements that are in Me and not in other
     Dim resulting_set As Setx: Set resulting_set = difference(other)
     Set d = New Dictionary
     append resulting_set
@@ -382,7 +377,6 @@ Public Function update_difference(other As Setx)
 End Function
 
 Public Function update_symmetric_difference(other As Setx)
-'Modifies an existing set, making it contain elements found only in Me or in other but not in both
     Dim resulting_set As Setx: Set resulting_set = symmetric_difference(other)
     Set d = New Dictionary
     append resulting_set
@@ -405,11 +399,6 @@ Attribute newEnum.VB_UserMemId = -4
     Set newEnum = c.[_NewEnum]
 
 End Property
-
-Public Function count() As Integer
-    count = d.count()
-
-End Function
 
 Public Function toString() As String
     toString = Stringx.format("{0}<{1}>", TypeName(Me), getPrettyInnerTypeName)
