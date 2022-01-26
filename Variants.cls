@@ -135,7 +135,7 @@ Public Function gist(var As Variant) As String
     
         If var Is Nothing Then
             gist = TypeName(var)
-        ElseIf TypeName(var) = "List" Then
+        ElseIf TypeName(var) = "List" Or TypeName(var) = "Map" Or TypeName(var) = "Setx" Then
             gist = var.gist
         Else
             gist = TypeName(var)

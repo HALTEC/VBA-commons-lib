@@ -382,6 +382,7 @@ Public Function gist() As String
     Dim sorted As List: Set sorted = keyList.sort()
     Dim key As Variant
     Dim value As Variant
+    result = "{"
     Dim i As Long: i = 0
     For Each key In sorted
         If i > 0 Then
@@ -404,6 +405,7 @@ Public Function gist() As String
             Exit For
         End If
     Next key
+    result = result & "}"
     gist = result
 End Function
 
