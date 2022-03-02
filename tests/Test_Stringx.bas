@@ -159,6 +159,7 @@ Private Sub test_trans()
     equals Stringx.trans("abcd"), "abcd", "No replacements work."
     equals Stringx.trans("", "a", "b"), "", "Empty text works."
     equals Stringx.trans("abcd", "a", ""), "bcd", "Empty replacement works."
+    equals Stringx.trans("ab d", " ", "c"), "abcd", "Replacing spaces works."
     
     equals Stringx.trans("abcd", List_createLT("a", "c"), List_createLT("x", "y")), "xbyd", "Replacement with lists works."
     equals Stringx.trans("abcd", List_createLT(), List_createLT()), "abcd", "No replacement with lists works."
@@ -166,6 +167,7 @@ Private Sub test_trans()
     equals Stringx.trans("abcd", List_createLT("a", "c"), "x"), "xbxd", "Replacement with list and scalar works."
     equals Stringx.trans("abcd", List_createLT("a", "c"), "x", List_createLT("b", "d"), "y"), "xyxy", "Multiple replacements with list and scalar works."
     equals Stringx.trans("abcd", List_createLT(), ""), "abcd", "No replacement with list and scalar works."
+    equals Stringx.trans("ab" & vbCrLf & "cd", vbCrLf, "X"), "abXcd", "Replacing newlines works."
     
     On Error Resume Next
     Stringx.trans "abcd", "a"

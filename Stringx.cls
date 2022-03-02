@@ -637,11 +637,9 @@ Public Function trans(inputString As String, ParamArray values()) As String
             End If
             
             For Each CheckError In toChange
-                
-                If Trim(CheckError) = "" Then
+                If CheckError = "" Then
                     Err.Raise E_INVALIDINPUT
                 End If
-                
             Next
             
         ElseIf Counter Mod 2 <> 0 Then
@@ -666,9 +664,7 @@ Public Function trans(inputString As String, ParamArray values()) As String
         
         Counter = Counter + 1
     Next
-
-    
-trans = inputString
+    trans = inputString
 End Function
 
 
