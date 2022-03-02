@@ -125,4 +125,11 @@ Converts an absolute path with a drive letter to a UNC path.
 
 If the path is relative it is returned untouched. If it is on a non-network drive the path is returned untouched.
 
+=head2 sanitizeWinFilename
+
+    sanitizeWinFilename(filename As String, Optional replacement As String = "_") As String
+
+Cleans up a filename to only contain chars that are allowed in Windows filenames. Disallowed chars are replaced by
+C<replacement> which defaults to "_".
+
 =cut

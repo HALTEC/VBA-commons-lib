@@ -547,6 +547,7 @@ Private Function encToCPNo(enc As String) As Long
     End Select
 End Function
 
+
 Public Function pathToUNCPath(path As String) As String
     ' WNetGetUniversalNameA returns struct containing a pointer (4 bytes) to
     ' a string, directly followed by the string itself. The actual position of the
@@ -573,4 +574,13 @@ Public Function pathToUNCPath(path As String) As String
     Else
         pathToUNCPath = path
     End If
+End Function
+
+
+Public Function sanitizeWinFilename(filename As String, Optional replacement As String = "_") As String
+    Static bad As List
+    If bad Is Nothing Then
+        Set bad = List_create("\", "/", ":", "*", "?", """", "<", ">", "|", vbCrLf)
+    End If
+    sanitizeWinFilename = Stringx.trans(filename, bad, "_")
 End Function
