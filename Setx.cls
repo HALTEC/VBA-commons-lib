@@ -6,7 +6,7 @@ Attribute VB_Name = "Setx"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
-Attribute VB_Exposed = False
+Attribute VB_Exposed = True
 Private d As Scripting.Dictionary
 Private isTyped As Boolean
 Private innerType As String
