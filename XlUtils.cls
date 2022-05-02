@@ -9,6 +9,22 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = True
 Option Explicit
 
+#If VBA7 Then
+    Private Declare PtrSafe Function AccessibleObjectFromWindow Lib "oleacc" ( _
+        ByVal hwnd As LongPtr, ByVal dwId As Long, riid As Any, ppvObject As Object) As Long
+
+    Private Declare PtrSafe Function FindWindowExA Lib "user32" ( _
+        ByVal hwndParent As LongPtr, ByVal hwndChildAfter As LongPtr, _
+    ByVal lpszClass As String, ByVal lpszWindow As String) As LongPtr
+#Else
+    Private Declare Function AccessibleObjectFromWindow Lib "oleacc" ( _
+        ByVal hwnd As Long, ByVal dwId As Long, riid As Any, ppvObject As Object) As Long
+
+    Private Declare Function FindWindowExA Lib "user32" ( _
+        ByVal hwndParent As Long, ByVal hwndChildAfter As Long, _
+    ByVal lpszClass As String, ByVal lpszWindow As String) As Long
+#End If
+
 Public Function nameExists(rangeName As String, Optional wb As Workbook) As Boolean
     If wb Is Nothing Then
         Set wb = ThisWorkbook
@@ -164,3 +180,30 @@ Public Function lettersToNum(letters As String) As Integer
     lettersToNum = result
 End Function
 
+' Based on https://stackoverflow.com/a/35343847/1975049
+Public Function getOtherExcelInstances() As Setx
+    Const OBJID_NATIVEOM As Long = &HFFFFFFF0
+
+    ' GUID of the IDispatch Interface is 00020400-0000-0000-C000-000000000046
+    Dim guid(0 To 3) As Long
+    guid(0) = &H20400
+    guid(1) = &H0
+    guid(2) = &HC0
+    guid(3) = &H46000000
+
+    Set getOtherExcelInstances = Setx_create()
+    Do
+        Dim hwnd As Long: hwnd = FindWindowExA(0, hwnd, "XLMAIN", vbNullString)
+        If hwnd = 0 Then
+            Exit Do
+        End If
+        Dim hwnd2 As Long: hwnd2 = FindWindowExA(hwnd, 0, "XLDESK", vbNullString)
+        Dim hwnd3 As Long: hwnd3 = FindWindowExA(hwnd2, 0, "EXCEL7", vbNullString)
+        Dim acc As Object
+        If AccessibleObjectFromWindow(hwnd3, OBJID_NATIVEOM, guid(0), acc) = 0 Then
+            If Not acc.Application Is Application Then
+                getOtherExcelInstances.add acc.Application
+            End If
+        End If
+    Loop
+End Function

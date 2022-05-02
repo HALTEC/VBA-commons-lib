@@ -97,4 +97,11 @@ Converts a decimal integer to letters (base 26).
 
 Converts a letter combination (a base 26 number) to a decimal integer.
 
+=head2 getOtherExcelInstances
+
+    Dim instances As Setx: Set instances = XlUtils.getOtherExcelInstances
+
+Returns a C<Setx> of Excel C<Application> objects corresponding to all other
+Excel instances currently running on the System.
+
 =cut
