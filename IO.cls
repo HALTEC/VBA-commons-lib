@@ -580,7 +580,7 @@ End Function
 Public Function sanitizeWinFilename(filename As String, Optional replacement As String = "_") As String
     Static bad As List
     If bad Is Nothing Then
-        Set bad = List_create("\", "/", ":", "*", "?", """", "<", ">", "|", vbCrLf)
+        Set bad = List_create("\", "/", ":", "*", "?", """", "<", ">", "|", vbCrLf, vbCr, vbLf)
     End If
     sanitizeWinFilename = Stringx.trans(filename, bad, "_")
 End Function

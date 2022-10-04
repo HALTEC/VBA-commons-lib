@@ -21,6 +21,7 @@ Private Sub test_all()
     test_decode
     test_slurp
     test_spurt
+    test_sanitizeWinFilename
     
     gStop
 End Sub
@@ -200,6 +201,15 @@ Private Sub test_spurt()
     gStop
 End Sub
 
+Public Function test_sanitizeWinFilename()
+    gStart "sanitizeWinFilename"
+    
+    equals IO.sanitizeWinFilename("Hauptstraﬂe: \o/ *_*"), "Hauptstraﬂe_ _o_ ___"
+    equals IO.sanitizeWinFilename("line1" & vbCrLf & "line2" & vbCr & "line3" & vbLf & "line4"), "line1_line2_line3_line4"
+    
+    gStop
+End Function
+
 Private Function ShellX(ByVal PathName As String, _
         Optional ByVal WindowStyle As Long = vbMinimizedFocus, _
         Optional ByVal Events As Boolean = True _
@@ -217,7 +227,7 @@ Private Function ShellX(ByVal PathName As String, _
     CloseHandle procHnd
 End Function
 
-Public Function areFilesEqual(file1 As String, file2 As String) As Boolean
+Private Function areFilesEqual(file1 As String, file2 As String) As Boolean
     areFilesEqual = ShellX("fc.exe /B " & file1 & " " & file2, Events:=False) = 0
 End Function
 
